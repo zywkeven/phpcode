@@ -1,0 +1,112 @@
+http://jingpin.org/wordpress-theme-template-and-directory-structure/
+
+
+虽然最小巧的 WordPress 主题只需要 index.php 模板和 style.css 文件——如果是一个小孩子主题，只要一个 style.css 文件就可以了，但是绝大多数的 WordPress 主题需要更多的东西。
+
+我们新的最小巧的主题将会包括 6 个文件。在 WordPress 的 wp-content/themes 目录下新建一个文件夹，例如“your-theme”，不过您可以任意命名。然后在“your-theme”文件夹里面创建以下文件（放心，空白文件就可以了）：
+
+?index.php
+?header.php
+?sidebar.php
+?footer.php
+?functions.php
+?style.css
+
+现在，让我们在文本编辑器上打开最后一个文件 style.css。我们首先要做的是在顶部添加以下被称为 CSS “注释”（在 /* 和 */ 之间）的代码。我们需要这些代码来让 WordPress 识别您的主题，如果没有这些代码，您的主题就不会出现在主题面板。
+
+/*
+Theme Name: Your Theme
+Theme URI: http://example.com/example/
+Description: A search engine optimized website framework for WordPress.
+Author: You
+Author URI: http://example.com/
+Version: 1.0
+Tags: Comma-separated tags that describe your theme
+.
+Your theme can be your copyrighted work.
+Like WordPress, this work is released under GNU General Public License, version 2 (GPL).
+
+http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+
+.
+*/
+
+注意事项：
+
+这些代码中其实只有主题名称是必须的，其他都是可选的。但是如果想发布主题或者为别人定做一个主题，您将会想添加更多或者全部其他代码。我只是希望您能随意更改这些代码。
+
+完成之后，您可以激活该主题并用于测试网站。我们已经做了一个最空白的主题！事情应该开始变得有趣了。
+
+在 HTML 结构上创建主题
+在我们开始使用上面创建的 HTML 结构之前，先讲点关于 WordPress 和 模板的知识。
+
+WordPress 其实只需要一个模板文件，即 index.php。在某些情况下，我们可以也将会添加一些其他的模板文件（例如单独日志、分类页面等）来弥补 index.php 的不足，但刚开始的时候，我们只需要 index.php 就够了。
+
+现在，index.php 和其他相关的模板文件就构成我们在浏览器上看到的网页，这些网页是包含 HTML 和 PHP 的。 
+
+让我们把网页看成是有开头有中间有结尾的小说，当 index.php 文件（以及后来的 single.php、category.php 等文件）写好了之后，我们将会把精力集中于中间。但是我们要先想好开头和结尾，因为中间部分可能要经常改，但是开头和结尾部分只要写一次。 
+
+Header.php 和 Footer.php
+打开之前创建好的 header.php 文件，把下面的代码复制粘贴上去并保存：
+
+<html>
+<head>
+</head>
+<body>
+<div id="wrapper" class="hfeed">
+<div id="header">
+<div id="masthead">     	
+
+		<div id="branding">
+	</div><!-- #branding -->      	
+
+		<div id="access">
+	</div><!-- #access -->   
+
+	</div><!-- #masthead -->
+	  	</div><!-- #header -->  
+
+	<div id="main">接着，把下面的代码复制粘贴到 footer.php 文件：
+
+</div><!-- #main -->   
+
+<div id="footer">
+<div id="colophon">   
+
+<div id="site-info">
+</div><!-- #site-info -->  	
+
+</div><!-- #colophon -->
+</div><!-- #footer -->
+</div><!-- #wrapper -->
+</body>
+</html>Index.php
+我打赌您能猜到我们现在要做什么了。把下面的代码复制粘贴到 index.php 文件：
+
+<div id="container">   	
+
+		<div id="content">
+		</div><!-- #content -->  	
+
+		</div><!-- #container -->   	
+
+		<div id="primary" class="widget-area">
+		</div><!-- #primary .widget-area -->   
+
+		<div id="secondary" class="widget-area">
+			</div><!-- #secondary -->还欠两小步我们就创建了一个完美的通过验证的 WordPress 主题了，现在我们需要把页眉和页脚添加到主题上。
+
+在 index.php 文件的最顶部，添加以下模板标签：
+
+<?php get_header(); ?>我想代码本身就很明显表明这个标签有什么用，它是添加页眉的。既然说到这里，我们就来看一下这个模板标签，如果您对 PHP 陌生，我想您注意几件事。首先，PHP 函数调用——get_header()——以 <?php 开始，以 ?> 结尾。第二，当函数调用只有一行的时候，结尾用分号——一个不起眼但很重要的符号。
+
+好吧，您能够猜到我们将要在 index.php 的最底部调用什么函数吗？ 
+
+<?php get_footer(); ?>现在我们已经完成了 WordPress 寻找的主要文件 index.php。它具有网页的所有中间元素，以及开头和结尾。
+
+刷新您的测试网页，在 Firefox 浏览器上点击 “查看-页面源代码”，您就会看到自己的代码！
+
+您正在制作自己的第一个主题。
+
+如何创建 WordPress 主题
+这篇文章是如何创建 WordPress 主题教程系列的其中一部分，该系列将会教您如何从零开始创建强大的 WordPress 主题。建议您从头开始阅读这个系列并自己动手编写一些漂亮的代码。

@@ -1,0 +1,285 @@
+GetImageSize作用：取得图片的大小[即长与宽] 
+用法：array GetImageSize(string filename, array [imageinfo]);
+
+ImageArc
+作用：画弧线
+用法：int ImageArc(int im, int cx, int cy, int w, int h, int s, int e, int col);
+
+ImageChar
+作用：写出横向字符
+用法：int ImageChar(int im, int font, int x, int y, string c, int col);
+
+ImageCharUp
+作用：写出竖式字符 
+用法：int ImageCharup(int im, int font, int x, int y, string c, int col);
+
+ImageColorAllocate
+作用：匹配颜色
+用法：int ImageColorAllocate(int im, int red, int green, int blue);
+
+ImageColorTransparent
+作用：指定透明背景色 
+用法：int ImageColorTransparent(int im, int [col]);
+
+ImageCopyResized
+作用：复制新图并调整大小
+用法：int ImageCopyResized(int dst_im, int src_im, int dstX, int dstY, int srcX, int srcY, int dstW, int dstH, int srcW, int srcH);
+
+ImageCreate
+作用：建立新图 
+用法：int ImageCreate(int x_size, int y_size);
+
+ImageDashedLine
+作用：绘虚线
+用法：int ImageDashedLine(int im, int x1, int y1, int x2, int y2, int col);
+
+ImageDestroy
+作用：结束图形
+用法解释：int ImageDestroy(int im);
+
+ImageFill
+作用：图形着色 
+用法：int ImageFill(int im, int x, int y, int col);
+
+ImageFilledPolygon
+作用：多边形区域着色 
+用法：int ImageFilledPolygon(int im, array points, int num_points, int col);
+
+ImageFilledRectangle
+作用：矩形区域着色
+用法：int ImageFilledRectangle(int im, int x1, int y1, int x2, int y2, int col);
+
+ImageFillToBorder
+作用：指定颜色区域内着色 
+用法：int ImageFillToBorder(int im, int x, int y, int border, int col);
+
+ImageFontHeight
+作用：取得字型的高度 
+用法：int ImageFontHeight(int font);
+
+ImageFontWidth
+作用：取得字型的宽度 
+用法：int ImageFontWidth(int font);
+
+ImageInterlace
+作用：使用交错式显示与否 
+用法：int ImageInterlace(int im, int [interlace]);
+
+ImageLine
+作用：绘实线 
+用法：int ImageLine(int im, int x1, int y1, int x2, int y2, int col);
+
+ImageLoadFont
+作用：载入点阵字型 
+用法：int ImageLoadFont(string file);
+
+ImagePolygon
+作用：绘多边形 
+用法：int ImagePolygon(int im, array points, int num_points, int col);
+
+ImageRectangle
+作用：绘矩形 
+用法：int ImageRectangle(int im, int x1, int y1, int x2, int y2, int col);
+
+ImageSetPixel
+作用：绘点 
+用法：int ImageSetPixel(int im, int x, int y, int col);
+
+ImageString
+作用：绘横式字符串 
+用法：int ImageString(int im, int font, int x, int y, string s, int col);
+
+ImageStringUp
+作用：绘直式字符串 
+用法：int ImageStringUp(int im, int font, int x, int y, string s, int col);
+
+ImageSX
+作用：取得图片的宽度
+用法：int ImageSX(int im);
+
+ImageSY
+作用：取得图片的高度 
+用法：int ImageSY(int im);
+
+ImageTTFBBox
+作用：计算 TTF 文字所占区域 
+用法：array ImageTTFBBox(int size, int angle, string fontfile, string text);
+
+ImageTTFText
+作用：写 TTF 文字到图中 
+用法：array ImageTTFText(int im, int size, int angle, int x, int y, int col, string fontfile, string text);
+
+ImageColorAt
+作用：取得图中指定点颜色的索引值 
+用法：int ImageColorAt(int im, int x, int y);
+
+ImageColorClosest
+作用：计算色表中与指定颜色最接近者 
+用法：int ImageColorClosest(int im, int red, int green, int blue);
+
+ImageColorExact
+作用：计算色表上指定颜色索引值 
+用法：int ImageColorExact(int im, int red, int green, int blue);
+
+ImageColorResolve
+作用：计算色表上指定或最接近颜色的索引值 
+用法：int ImageColorResolve(int im, int red, int green, int blue);
+
+ImageColorSet
+作用：设定色表上指定索引的颜色 
+用法：boolean ImageColorSet(int im, int index, int red, int green, int blue); 
+
+ImageColorsForIndex
+作用：取得色表上指定索引的颜色 
+用法：array ImageColorsForIndex(int im, int index);
+
+ImageColorsTotal
+作用：计算图的颜色数 
+用法：int ImageColorsTotal(int im);
+
+ImagePSLoadFont
+作用：载入 PostScript 字型 
+用法：int ImagePSLoadFont(string filename);
+
+ImagePSFreeFont
+作用：卸下 PostScript 字型 
+用法：void ImagePSFreeFont(int fontindex);
+
+ImagePSEncodeFont
+作用：PostScript 字型转成向量字 
+用法：int ImagePSEncodeFont(string encodingfile);
+
+ImagePSText
+作用：写 PostScript 文字到图中 
+用法：array ImagePSText(int image, string text, int font, int size, int foreground, int background, int x, int y, int space, int tightness, float angle, int antialias_steps);
+
+ImagePSBBox
+作用：计算 PostScript 文字所占区域 
+用法： array ImagePSBBox(string text, int font, int size, int space, int width, float angle);
+
+ImageCreateFromPNG
+作用：取出 PNG 图型 
+用法：int ImageCreateFromPng(string filename);
+
+ImagePNG
+作用：建立 PNG 图型 
+用法：int ImagePng(int im, string [filename]);
+
+ImageCreateFromGIF
+作用：取出 GIF 图型 
+用法：int ImageCreateFromGif(string filename);
+
+ImageGIF
+作用：建立 GIF 图型
+用法：int ImageGif(int im, string [filename]);
+
+目录
+gd_info -- 取得当前安装的 GD 库的信息
+getimagesize -- 取得图像大小
+image_type_to_extension --　Get file extension for image type 
+image_type_to_mime_type --　取得 getimagesize，exif_read_data，exif_thumbnail，exif_imagetype 所返回的图像类型的 MIME 类型 
+image2wbmp -- 以 WBMP 格式将图像输出到浏览器或文件
+imagealphablending -- 设定图像的混色模式
+imageantialias -- 是否使用 antialias 功能
+
+imagearc -- 画椭圆弧
+imagechar -- 水平地画一个字符
+imagecharup -- 垂直地画一个字符
+imagecolorallocate -- 为一幅图像分配颜色
+imagecolorallocatealpha -- 为一幅图像分配颜色 + alpha
+imagecolorat -- 取得某像素的颜色索引值
+imagecolorclosest -- 取得与指定的颜色最接近的颜色的索引值
+imagecolorclosestalpha -- 取得与指定的颜色 + alpha 最接近的颜色
+imagecolorclosesthwb --　取得与给定颜色最接近的色度的黑白色的索引 
+imagecolordeallocate -- 取消图像颜色的分配
+imagecolorexact -- 取得指定颜色的索引值
+imagecolorexactalpha -- 取得指定的颜色 + alpha 的索引值
+imagecolormatch --　使一个图像中调色板版本的颜色与真彩色版本更能匹配 
+imagecolorresolve --　取得指定颜色的索引值或有可能得到的最接近的替代值 
+imagecolorresolvealpha --　取得指定颜色 + alpha 的索引值或有可能得到的最接近的替代值 
+imagecolorset -- 给指定调色板索引设定颜色
+imagecolorsforindex -- 取得某索引的颜色
+imagecolorstotal -- 取得一幅图像的调色板中颜色的数目
+imagecolortransparent -- 将某个颜色定义为透明色
+imagecopy -- 拷贝图像的一部分
+imagecopymerge -- 拷贝并合并图像的一部分
+imagecopymergegray -- 用灰度拷贝并合并图像的一部分
+imagecopyresampled -- 重采样拷贝部分图像并调整大小
+imagecopyresized -- 拷贝部分图像并调整大小
+
+
+imagecreate -- 新建一个基于调色板的图像
+imagecreatefromgd2 -- 从 GD2 文件或 URL 新建一图像
+imagecreatefromgd2part -- 从给定的 GD2 文件或 URL 中的部分新建一图像
+imagecreatefromgd -- 从 GD 文件或 URL 新建一图像
+imagecreatefromgif -- 从 GIF 文件或 URL 新建一图像
+imagecreatefromjpeg -- 从 JPEG 文件或 URL 新建一图像
+imagecreatefrompng -- 从 PNG 文件或 URL 新建一图像
+imagecreatefromstring -- 从字符串中的图像流新建一图像
+imagecreatefromwbmp -- 从 WBMP 文件或 URL 新建一图像
+imagecreatefromxbm -- 从 XBM 文件或 URL 新建一图像
+imagecreatefromxpm -- 从 XPM 文件或 URL 新建一图像
+imagecreatetruecolor -- 新建一个真彩色图像
+imagedashedline -- 画一虚线
+imagedestroy -- 销毁一图像
+imageellipse -- 画一个椭圆
+imagefill -- 区域填充
+imagefilledarc -- 画一椭圆弧且填充
+imagefilledellipse -- 画一椭圆并填充
+imagefilledpolygon -- 画一多边形并填充
+imagefilledrectangle -- 画一矩形并填充
+
+imagefilltoborder -- 区域填充到指定颜色的边界为止
+
+imagefilter --　Applies a filter to an image 
+imagefontheight -- 取得字体高度
+imagefontwidth -- 取得字体宽度
+imageftbbox -- 取得使用了 FreeType 2 字体的文本的范围
+imagefttext -- 使用 FreeType 2 字体将文本写入图像
+imagegammacorrect -- 对 GD 图像应用 gamma 修正
+
+imagegd2 -- 输出 GD2 图像
+imagegd -- 将 GD 图像输出到浏览器或文件
+imagegif -- 以 GIF 格式将图像输出到浏览器或文件
+imageinterlace -- 激活或禁止隔行扫描
+imageistruecolor -- 检查图像是否为真彩色图像
+imagejpeg -- 以 JPEG 格式将图像输出到浏览器或文件
+
+imagelayereffect --　Set the alpha blending flag to use the bundled libgd layering effects 
+imageline -- 画一条直线
+imageloadfont -- 载入一新字体
+imagepalettecopy -- 将调色板从一幅图像拷贝到另一幅
+imagepng -- 以 PNG 格式将图像输出到浏览器或文件
+imagepolygon -- 画一个多边形
+
+imagepsbbox -- 取得使用 PostScript Type1 字体的文本的范围
+imagepscopyfont --　拷贝一个已加载的字体以备更改 
+imagepsencodefont -- 改变字体中的字符编码矢量
+imagepsextendfont -- 扩充或压缩字体
+imagepsfreefont -- 释放一个 PostScript Type 1 字体所占用的内存
+imagepsloadfont -- 从文件中加载一个 PostScript Type 1 字体
+
+imagepsslantfont -- 倾斜某字体
+imagepstext -- 用 PostScript Type1 字体把文本字符串画在图像上
+imagerectangle -- 画一个矩形
+imagerotate -- 用给定角度旋转图像
+imagesavealpha --　设置标记以在保存 PNG 图像时保存完整的 alpha 通道信息（与单一透明色相反）
+imagesetbrush -- 设定画线用的画笔图像
+imagesetpixel -- 画一个单一像素
+imagesetstyle -- 设定画线的风格
+imagesetthickness -- 设定画线的宽度
+imagesettile -- 设定用于填充的贴图
+imagestring -- 水平地画一行字符串
+imagestringup -- 垂直地画一行字符串
+imagesx -- 取得图像宽度
+imagesy -- 取得图像高度
+imagetruecolortopalette -- 将真彩色图像转换为调色板图像
+imagettfbbox -- 取得使用 TrueType 字体的文本的范围
+imagettftext -- 用 TrueType 字体向图像写入文本
+imagetypes -- 返回当前 PHP 版本所支持的图像类型
+imagewbmp -- 以 WBMP 格式将图像输出到浏览器或文件
+imagexbm --　Output XBM image to browser or file 
+iptcembed -- 将二进制 IPTC 数据嵌入到一幅 JPEG 图像中
+iptcparse --　将二进制 IPTC http://www.iptc.org/ 块解析为单个标记 
+jpeg2wbmp -- 将 JPEG 图像文件转换为 WBMP 图像文件
+png2wbmp -- 将 PNG 图像文件转换为 WBMP 图像文件

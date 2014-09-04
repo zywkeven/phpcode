@@ -1,0 +1,184 @@
+body
+{
+    background-color:rgb(203, 226, 231);
+}
+
+table.vote
+{
+    padding: 0px;
+    border: 1px solid #c3c3c3;
+    border-collapse: collapse;
+    text-align:center;
+    
+    font-color:white;
+    font-size:8pt;
+    font-family:tahoma;
+    
+    width:95%;
+
+    background-repeat:no-repeat;
+    background-position: 96% 55%;
+
+    background-color: lightblue;
+    
+    alignment:center;
+}
+
+table.bar
+{
+    padding: 0px;
+    border-collapse: collapse;
+}
+
+
+td.dotbar
+{
+    padding: 0px;
+    border-collapse: collapse;
+    border-right:1px solid cyan;
+
+    background-color: blue;
+
+    width:1px;
+    height:8px;
+}
+
+td.restbar
+{
+    padding: 0px;
+    border-collapse: collapse;
+    background-color: lightblue;
+
+    width:1px;
+    height:8px;
+}
+
+
+td.vote
+{
+      text-indent:3pt;
+      height:11px;
+      padding:2px;
+      
+      vertical-align:middle;
+      text-align:left;
+}
+
+td.expires
+{
+    text-indent:3pt;
+    height:11px;
+    padding:2px;
+      
+    font-color:white;
+    font-size:7pt;
+    font-family:tahoma;
+
+    vertical-align:middle;
+    text-align:center;
+}
+
+td.errMSG
+{
+      text-indent:3pt;
+      height:11px;
+      padding:2px;
+      
+      vertical-align:middle;
+      text-align:center;
+
+      background-color: #e30000;
+      color:white;
+}
+
+td.votetitle
+{
+    height:11px;
+    padding:2px;
+      
+    vertical-align:middle;
+    text-align:center;
+
+    font-family: tahoma;
+    color: rgb(255,255,255);
+    font-size: 8pt;
+    font-weight:bold;
+
+    background-color:rgb(187,218,227);
+}
+
+td.percentage
+{
+    border-left:1px solid #c3c3c3;
+    border-bottom:1px solid #c3c3c3;
+    
+    font-weight:bold;
+    text-indent: 3pt;
+    text-align:left ;
+
+    background-color:white;
+}
+
+td.vote
+{
+      text-indent:3pt;
+      height:11px;
+      padding:2px;
+      
+      vertical-align:middle;
+      text-align:left;
+}
+
+td.voters
+{
+      text-indent:3pt;
+      height:11px;
+      padding:2px;
+      
+      vertical-align:middle;
+      text-align:center;
+      
+      background-color:rgb( 152, 217, 233);
+
+      border-bottom: 1px solid #c3c3c3;
+}
+
+td.bar
+{
+      height:11px;
+      
+      vertical-align:middle;
+      text-align:center;
+      
+      background-color:white;
+
+      border-left: 1px solid #c3c3c3;
+      border-bottom: 1px solid #c3c3c3;
+}
+
+
+td.header
+{
+      padding:2px;
+      
+      vertical-align:middle;
+      text-align:center;
+
+      font-size:10pt;
+      font-weight:bold;
+
+      border-bottom: 1px solid #c3c3c3;
+
+      background-color: white;
+}
+
+input.votebtn
+{
+      border:1px ridge;
+      
+      font-family:tahoma;
+      font-size:8pt;
+      font-weight:bold;
+
+      background-color:rgb( 152, 217, 233);
+}

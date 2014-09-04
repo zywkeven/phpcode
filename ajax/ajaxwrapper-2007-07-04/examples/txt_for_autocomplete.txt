@@ -1,0 +1,139 @@
+AIM Sniff - Sniffer / Logger for AOL Instant Messenger
+802ether - convert 802.11 dumps to ethernet dumps
+Aircrack - 802.11 sniffer and WEP / WPA cracker
+Aireplay - 802.11 packet injection program
+Airfinder - airfinder helps to detect or locate a specific wireless MAC address
+Airodump - 802.11 packet capture program
+Airsnort - wireless LAN (WLAN) tool which recovers encryption keys
+Airtraf - 802.11 network analyzer
+Amap - next generation scanning tool
+Anwrap - wrapper for ancontrol to attack LEAP enabled Cisco Wireless Networks
+Arping - Arping is an ARP level ping for finding out if an IP is taken
+Arpscan - exploits a bug in the ARP protocol to scan a network blindly
+Arpspoof - spoof MAC addresses on the subnet
+Arpwatch - detect MAC-to-IP mapping changes
+Arpalert - tool to monitor ethernet networks
+Asleap - pentesting Cisco LEAP wireless AP, can recover weak passwords
+Babelweb - program which allows to automate tests on HTTP servers
+Cctt - covert channel tunneling tool
+Chaosreader - A tool to trace TCP / UDP sessions and fetch application data
+Chntpw - Offline NT password and registry editor
+CiscoTorch - Cisco vulnerability scanner
+Cmospwd - BIOS and NT password recovery
+Cryptcat - lightweight version of netcat with integrated encryption capabilities
+Curl - command line tool for transferring files with URL syntax
+Darkstat - network traffic analyzer
+Decrypt - decrypts all packets in a pcap file from a specified AP given the proper password
+Dnsa-ng - DNS Swiss army knife tool
+Dsniff - collection of tools for network auditing and penetration testing
+Dnssppof - forges replies to DNS queries
+Dnstracer - determines where a given DNS gets its information from, and follows the chain back to the servers which know the data
+DNStop - application that displays various tables of DNS traffic on a network
+Driftnet - listens to network and picks out images from traffic it observes
+Dwepcrack - Linux port of the WEP cracker from bsd-airtools
+Etherape - graphical network monitor for Unix modeled after etherman
+Ethereal - a network protocol analyzer / sniffer with extensive list of features
+Etherwake - A little tool to send magic Wake-on-LAN packets
+Ettercap - multipurpose sniffer / interceptor / logger for switched LAN
+FakeAP - Generates thousands of counterfeit 802.11 AP for use as a honeypot
+FakeBO - Fakes trojan servers (BO, NetBus) and logs every attempt from client
+FantaIP - a "Phantom IP" program that listens on a secondary IP address
+Filesnarf - sniff files from NFS traffic
+Finalsolution - tool to check the strength of network passwords
+Findsmb - list info about machines that respond to SMB name queries on a subnet
+Firewalk - A tool to determine which protocols will pass through a firewall
+Flowreplay - tool to replay traffic at Layer 4 or 7 depending on the protocol
+Fragroute - Test a NIDS by attempting to evade it using fragmented packets
+Ftest - tool for testing firewalls filtering policies and IDS capabilities
+GPG - GNU Privacy Guard
+GQ - LDAP client
+Gspoof - GTK-based packet forging / crafting tool
+Guesswho - SSH brute force tool
+Hackbot - scanner and banner grabber
+Hammerhead - web server stress testing tool
+Hjksuite - Collection of programs for hijacking of connections through the supported protocols (irc, http, etc.)
+Hotspotter - wireless client hijacking
+Hping2 - network scanner that uses spoofed source address packets
+Hping3 - network scanner that uses spoofed source address packets
+Httprint - web server fingerprinting tool
+Httptunnel - tunnel arbitrary TCP / IP traffic over HTTP
+Hydra - very fast network login cracker which supports many different services
+Icmp_redirect - packet generator
+Igrp - packet generator
+IKE-Scan - VPN scanner / tester
+IPFM - bandwidth analysis tool
+IPPL - IP protocols logger
+IPsorcery - custom packet generator to test network or firewall settings
+Irdp - packet generator
+IRPAS - a suite of routing protocol attack tools
+Itunnel - tunnel network traffic over ICMP
+John The Ripper - password cracker
+Kismet - 802.11 layer2 wireless network detector, sniffer, and IDS
+K0ld - LDAP bruteforce cracker
+LCrack - Lepton's password cracker
+Links - text-mode web browser
+Lynx - text-mode web browser
+Macchanger - utility for viewing or manipulating the MAC address of NIC
+Macof - packet generator
+Mailsnarf - email sniffer
+Massrooter - exploits vulnerabilities in bind, lpd, rpc, wuftpd, mail, ssl, ssh
+Metasploit - advanced framework for developing, testing, and using exploit code
+Nast - a packet sniffer and a LAN analyzer based on Libnet and Libpcap
+Nbtscan - program for scanning IP networks for NetBIOS name information
+Nemesis - packet injection tool (suite)
+Nessus - network security scanner
+Netcat - versatile tool which reads and writes data across TCP / IP connections
+Netinjector - fast and highly configurable packet generator engine
+Netsed - network packet altering stream editor
+Ngrep - network grep
+Nikto - web server and CGI scanner
+Nmap - utility for network exploration or security auditing
+NMBLookup - query NetBIOS names and map them to IP addresses in a network
+nstxd - IP over DNS tunnelling
+Nstreams - analyzes the streams that occur on a network
+Obiwan - brute force authentication attack against a webserver with authentication requests
+Passifist - tool for passive network discovery by analyzing broadcast traffic
+P0f - versatile passive OS fingerprinting and masquerade detection utility
+Raccess - tries to gain access to a system using advanced techniques of intrusion
+Reverb - network tool for traffic relay
+RKHunter - rootkit hunter
+ScanSSH - scans addresses and networks for open proxies, SSH, Web, SMTP servers
+Scapy - packet generator / sniffer and network scanner / discovery
+SendIP - a command line tool to allow sending arbitrary IP packets
+Siege - stress / regression URL test and benchmark utility
+Siphon - passive network mapping tool
+SMBAT - SMB password auditing tool, which exploits a Windows bug to try up to 1200 logins/sec
+Smtpmap - SMTP fingerprinting tool
+Smtpscan - remote SMTP server fingerprinting tool
+Snacktime - a Perl solution for remote OS fingerprinting
+Sniffit - packet sniffer for TCP/UDP/ICMP packets
+Snort - open source IDS / IPS
+Socat - multipurpose relay tool
+Sshmitm - peforms mitm attacks for the SSH protocol
+Sshow - SSH traffic analysis tool
+Ssldump - SSLv3/TLS network protocol analyzer
+Sslsmurf - a local proxy that can capture HTTPS traffic in clear text
+Sslsniff - SSL tool to perform MITM for HTTPS (and other protocols)
+Stunnel - secure tunnel / wrapper for TCP connections
+Synscan - synscan synscan is a TCP / IP OS fingerprinting and network testing tool
+Tcpick - tcpick is a textmode sniffer libpcap-based that can track and save tcp streams
+Tcpping - a ping implementation using TCP packets
+Tcptrace - tool for analyzing tcpdump output
+Tcptraceroute - a traceroute implementation using TCP packets
+Telnetfp - OS fingerprinting by Telnet
+Tethereal - console version of Ethereal
+THC-pptp-bruter - Brute force program against PPTP VPN Gateways
+Thcrut - local network discovery tool
+Therev - performs analysis of MS Word files at a specific website of filesystem
+Traceproto - traceroute replacement that allows users to specify the protocol / port to trace to
+Unicornscan - an attempt at a User-land Distributed TCP / IP stack
+UPnPScan - a tool that scans a LAN for UPnP capable devices through M-SEARCH packets
+Urlsnarf - Tool that is an HTTP sniffer able to output in Common Log Format
+VNCrack - VNC password cracker
+Wavemon - ncurses-based monitor for wireless devices
+Webspy - display sniffed URL in Netscape in real-time
+Weplab - WEP cracker
+Wmap - smart HTTP / CGI scanner
+Xhydra - X11 frontend to Hydra
+Xprobe2 - operating system fingerprinting with a different approach to OS detection
+Yersinia - network tool designed to take advantage of some weakeness in different network protocols

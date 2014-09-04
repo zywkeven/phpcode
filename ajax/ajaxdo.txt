@@ -1,0 +1,422 @@
+TAG标签收藏本站网站地图RSS订阅首页网页设计网页软件 图像设计 网站开发 网站运营 建站指南 数据库 服务器 视频教程书籍下载 专题asp教程 PHP教程 JSP教程 asp.net教程 JavaScript/Ajax教程 xml/XSLT教程 Shtml教程    智能模糊搜索 仅搜索标题  热门关键字： 　网站 　网页制作 　网页 　网页设计 当前位置 :| 建站学>网站开发>JavaScript/Ajax教程> javascript Ajax封装类代码时间：2009-07-06 Tag：   javascript   Ajax   Ajax已经如日中天，针对Ajax的框架也比比皆是，这里还是献献丑，提供一份06年自己写的Ajax封装类。 
+与现在那些Ajax框架比较，优劣之处？看完再说吧： 
+1、Ajax.js 
+
+/* 
+AJAX v1.4 
+HJF 2009-7-5 
+*/ 
+function AjaxDO(){ 
+this.HttpRequest = null; 
+this.openMethod = null; //HTTP请求的方法，为Get、Post 或者Head 
+this.openURL = null; //是目标URL。基于安全考虑，这个URL 只能是同网域的，否则会提示“没有权限”的错误。 
+this.openAsync = null; //是指定在等待服务器返回信息的时间内是否继续执行下面的代码。如果为False，则不会继续执行，直到服务器返回信息。默认为True。 
+this.ProcessRequestFunction = function(_HttpRequest) {return;} //处理返回信息的函数入口 
+this.ProcessRequestParam = null; //处理访问信息时的附加参数 
+this.LoadingImg = null; //正在载入的图片，一般为.gif动画 
+//初始化HttpRequest 
+this.InitHttpRequest = function(){ 
+var http; 
+// try { 
+// http = new ActiveXObject("Msxml2.XMLHTTP"); 
+// } catch(e) { 
+// try { 
+// http = new ActiveXObject("Microsoft.XMLHTTP"); 
+// } catch(e) { 
+// http = false; 
+// } 
+// } 
+try { 
+if(window.ActiveXObject){ 
+for(var i=5; i; i--){ 
+try{ 
+if(i==2){ 
+http = new ActiveXObject("Microsoft.XMLHTTP"); 
+}else{ 
+http = new ActiveXObject( "Msxml2.XMLHTTP." + i + ".0" ); 
+} 
+break; 
+}catch(e){ 
+//alert(i); 
+http = false; 
+} 
+} 
+}else if(window.XMLHttpRequest){ 
+http = new XMLHttpRequest(); 
+if(http.overrideMimeType){ 
+http.overrideMimeType("text/xml"); 
+} 
+} 
+}catch(e){ 
+http = false; 
+} 
+if(!http){ 
+Alert("不能创建XMLHttpRequest对象实例"); 
+return http; 
+} 
+this.HttpRequest = http; 
+return http; 
+} 
+//检测 this.HttpRequest 
+this.checkHttpRequest = function(){ 
+if(!this.HttpRequest){ 
+return this.InitHttpRequest(); 
+} 
+return this.HttpRequest; 
+} 
+//修改MIME类别 
+//http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded"); //如果要传文件或者Post 内容给服务器 
+//http.setRequestHeader("Content-Type","text/xml"); 
+//http.setRequestHeader("Content-Type","gb2312"); 
+this.setRequestHeader = function(mime){ 
+if(!this.checkHttpRequest()){ 
+return false; 
+} 
+try{ 
+this.HttpRequest.setRequestHeader("Content-Type", mime); 
+return true; 
+}catch(e){ 
+if(e instanceof Error){ 
+Alert("修改MIME类别错误"); 
+return false; 
+} 
+} 
+} 
+//设置状态改变的事件触发器 
+this.setOnReadyStateChange = function(funHandle, Param){ 
+if(!this.checkHttpRequest()){ 
+return false; 
+} 
+this.ProcessRequestFunction = funHandle; 
+this.ProcessRequestParam = Param; 
+return true; 
+} 
+this.setLoadingImg = function(ImgID){ 
+this.LoadingImg = ImgID; 
+} 
+//建立HTTP连接 
+//open("method","URL"[,asyncFlag[,"userName"[, "password"]]]) 
+this.Open = function(method, url, async, username, psw){ 
+if(!this.checkHttpRequest()){ 
+return false; 
+} 
+this.openMethod = method; 
+this.openURL = url; 
+this.openAsync = async; 
+if((this.openMethod==null) || ((this.openMethod.toUpperCase()!="GET")&&(this.openMethod.toUpperCase()!="POST")&&(this.openMethod.toUpperCase()!="HEAD"))){ 
+Alert("请指定HTTP请求的方法，为Get、Post 或者Head"); 
+return false; 
+} 
+if((this.openURL==null)||(this.openURL=="")){ 
+Alert("请指定目标URL"); 
+return false; 
+} 
+try{ 
+this.HttpRequest.open(this.openMethod, this.openURL, this.openAsync, username, psw); 
+}catch(e){ 
+if(e instanceof Error){ 
+Alert("无法建立HTTP连接"); 
+return false; 
+} 
+} 
+if(this.openMethod.toUpperCase()=="POST"){ 
+if(!this.setRequestHeader("application/x-www-form-urlencoded")){ 
+Alert("修改MIME类别失败"); 
+return false; 
+} 
+} 
+if(this.openAsync){ //异步模式，程序继续执行 
+if(this.ProcessRequestFunction==null){ 
+Alert("请指定处理返回信息的函数"); 
+return false; 
+} 
+var _http_request_ajax = this.HttpRequest; 
+var _this_ajax = this; 
+this.HttpRequest.onreadystatechange = function(){ 
+if(_http_request_ajax.readyState==4) { 
+if(_http_request_ajax.status==200) { 
+_this_ajax.ProcessRequestFunction(_http_request_ajax, _this_ajax.ProcessRequestParam, _this_ajax.LoadingImg); 
+}else{ 
+Alert("您所请求的页面有异常。"); 
+return false; 
+} 
+} 
+} 
+} 
+if(this.LoadingImg!=null){ 
+funShow(this.LoadingImg); 
+} 
+return true; 
+} 
+//向服务器发出HTTP请求 
+//格式：name=value&anothername=othervalue&so=on 
+this.Send = function(idata){ 
+if(!this.checkHttpRequest()){ 
+return false; 
+} 
+var data = null; 
+if(this.openMethod.toUpperCase()=="POST"){ 
+data = funEscapeAll(idata); 
+} 
+try{ 
+this.HttpRequest.send(data); 
+return true; 
+}catch(e){ 
+if(e instanceof Error){ 
+Alert("向服务器发出HTTP请求失败"); 
+return false; 
+} 
+} 
+} 
+//处理服务器返回的信息 
+this.getResponseText = function(type){ 
+if(!this.checkHttpRequest()){ 
+return false; 
+} 
+if(this.HttpRequest.readyState==4) { 
+if(this.HttpRequest.status==200) { 
+if((type!=null) && (type.toUpperCase()=="XML")){ 
+return this.HttpRequest.responseXML; 
+} 
+return this.HttpRequest.responseText; 
+}else{ 
+Alert("您所请求的页面有异常。"); 
+return false; 
+} 
+} 
+} 
+//停止当前请求 
+this.abort = function(){ 
+if(!this.checkHttpRequest()){ 
+return false; 
+} 
+if(this.LoadingImg!=null){ 
+funHide(this.LoadingImg); 
+} 
+if(this.HttpRequest.readyState>0 && this.HttpRequest.readyState<4){ 
+this.HttpRequest.abort(); 
+} 
+} 
+} 
+//===================================================================================== 
+//公共函数 
+//===================================================================================== 
+function $(_obj){ 
+var o; 
+if (typeof(_obj)!="string") 
+return _obj; 
+else{ 
+try{ 
+document.all; 
+try{ 
+o=document.all(_obj); 
+}catch(e){ 
+return null; 
+} 
+}catch(ee){ 
+try{ 
+o=document.getElementById(_obj); 
+}catch(e){ 
+return null; 
+} 
+} 
+return o; 
+} 
+} 
+function funEscapeAll(str){ 
+var t = "&"; 
+var s = str.split(t); 
+if(s.length<=0) return str; 
+for(var i=0; i<s.length; i++){ 
+s[i] = funEscapeOne(s[i]); 
+} 
+return s.join(t); 
+} 
+function funEscapeOne(str){ 
+var i = str.indexOf("="); 
+if(i==-1) return str; 
+var t = URLEncode(str.substr(i+1)); 
+return str.substring(0, i+1)+t; 
+} 
+function URLEncode(str){ 
+return encodeURIComponent(str); 
+/* 
+return escape(str).replace(/\+/g, "%2B"). 
+replace(/\"/g,"%22"). 
+replace(/\'/g, "%27"). 
+replace(/\//g,"%2F"); 
+*/ 
+} 
+function funEscapeXML(content) { 
+if (content == undefined) 
+return ""; 
+if (!content.length || !content.charAt) 
+content = new String(content); 
+var result = ""; 
+var length = content.length; 
+for (var i = 0; i < length; i++) { 
+var ch = content.charAt(i); 
+switch (ch) { 
+case '&': 
+result += "&"; 
+break; 
+case '<': 
+result += "<"; 
+break; 
+case '>': 
+result += ">"; 
+break; 
+case '"': 
+result += """; 
+break; 
+case '\'': 
+result += "'"; 
+break; 
+default: 
+result += ch; 
+} 
+} 
+return result; 
+} 
+function funShow(_obj){ 
+if(typeof(_obj)=="object") 
+_obj.style.visibility = "inherit"; 
+else 
+$(_obj).style.visibility = "inherit"; 
+} 
+function funHide(_obj){ 
+if(typeof(_obj)=="object") 
+_obj.style.visibility = "hidden"; 
+else 
+$(_obj).style.visibility = "hidden"; 
+} 
+function Alert(str){ 
+alert(str); 
+//window.status = str; 
+} 
+/* 
+使用例子： 
+function processRequest(http_request, _val, _loading_img){ 
+if(http_request.responseXML.documentElement){ 
+//alert(decodeURIComponent(http_request.responseXML.documentElement.xml)); 
+}else{ 
+//alert(decodeURIComponent(http_request.responseText)); 
+} 
+alert(_val); 
+funHide(_loading_img); 
+} 
+1、GET 
+var ajax = new AjaxDO(); 
+ajax.setLoadingImg(_loading_img); 
+ajax.setOnReadyStateChange(processRequest, _val); 
+ajax.Open("GET", url, true); //异步模式，程序继续执行 
+ajax.Send(""); 
+ajax.Open("GET", url, false); //非异步模式，程序等待 
+ajax.Send(""); 
+var xml_doc = ajax.getResponseText("XML"); 
+var text_doc = ajax.getResponseText("TEXT"); 
+2、POST 
+var ajax = new AjaxDO(); 
+ajax.setLoadingImg(_loading_img); 
+ajax.setOnReadyStateChange(processRequest, _val); 
+ajax.Open("POST", url, true); //异步模式，程序继续执行 
+ajax.Send(data); 
+ajax.Open("POST", url, false); //非异步模式，程序等待 
+ajax.Send(data); 
+var xml_doc = ajax.getResponseText("XML"); 
+var text_doc = ajax.getResponseText("TEXT"); 
+
+注，客户端发送带有中文或HTML脚本的信息时，发送的信息必须调用：encodeURIComponent函数，例如： 
+var data = encodeURIComponent($('message').value); 
+实际是调用了两次，Ajax类内部又调用一次。 
+服务端（Java版）需要做下转码： 
+String message = request.getParameter("message"); 
+message = URLDecoder.decode(message, "UTF-8"); 
+*/
+
+注，客户端发送带有中文或HTML脚本的信息时，发送的信息必须调用：encodeURIComponent函数，例如： 
+var data = encodeURIComponent($('message').value); 
+实际是调用了两次，Ajax类内部又调用一次。 
+服务端（Java版）需要做下转码： 
+String message = request.getParameter("message"); 
+message = URLDecoder.decode(message, "UTF-8"); 
+2、Demo.html 
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" /> 
+<title>Ajax类</title> 
+<script src="Ajax.js" mce_src="Ajax.js"></script> 
+<style type="text/css"><!-- 
+#Layer1 { 
+position:absolute; 
+left:670px; 
+top:11px; 
+width:15px; 
+height:15px; 
+z-index:10000; 
+background-color:#FF0000; 
+font-size:13; 
+border:none; 
+visibility:hidden; 
+} 
+--></style><style type="text/css" mce_bogus="1">#Layer1 { 
+position:absolute; 
+left:670px; 
+top:11px; 
+width:15px; 
+height:15px; 
+z-index:10000; 
+background-color:#FF0000; 
+font-size:13; 
+border:none; 
+visibility:hidden; 
+}</style> 
+</head> 
+<body> 
+<div id="Layer1"><img src="indicator_flower.gif" mce_src="indicator_flower.gif" width="15" /></div> 
+<script type="text/javascript" language="javascript"><!-- 
+function processRequest(http_request, _val, _loading_img){ 
+alert(http_request.responseXML.documentElement.xml); 
+//alert(http_request.responseText); 
+funHide(_loading_img); 
+} 
+// --></script> 
+<script type="text/javascript" language="javascript"><!-- 
+var url = "http://www.w3schools.com/xml/simple.xml"; 
+var data = ""; 
+var ajax = new AjaxDO(); 
+function btnAjax1(){ 
+//var ajax = new AjaxDO(); 
+//ajax.InitHttpRequest(); 
+ajax.abort(); 
+ajax.setLoadingImg(document.getElementById("Layer1")); 
+ajax.setOnReadyStateChange(processRequest); 
+ajax.Open("GET", url, true); //异步模式，程序继续执行 
+ajax.Send(""); 
+} 
+function btnAjax2(){ 
+//var ajax = new AjaxDO(); 
+//ajax.InitHttpRequest(); 
+ajax.abort(); 
+ajax.Open("GET", url, false); //非异步模式，程序等待 
+ajax.Send(""); 
+alert(ajax.getResponseText("XML").documentElement.xml); 
+alert(ajax.getResponseText("TEXT")); 
+} 
+// --></script> 
+<button onclick="btnAjax1()">异步模式</button> 
+<button onclick="btnAjax2()">非异步模式</button> 
+</body> 
+</html>
+
+
+
+3、图片
+
+
+[收藏][评论][报错][打印][关闭]相关文章：?javascript Ajax封装类代码?javascript的window.event对象教程?JavaScript中的对象、函数和继承?javascript、CSS 简单的控制层的现实与隐藏?jQuery.extend函数详细说明?JavaScript网站开发优化方案,?jQuery中常用的函数方法汇总?jQuery编写的超酷幻灯片效果?简单常用javascript 107个函数集合?javascript 的面向对象特性参考最新评论：共0页/0条记录发表评论：   
+评论内容：不能超过250字，需审核，请自觉遵守互联网相关政策法规。  用户名： 验证码：  返回页首特别推荐    精通Javascript+jquery视频教程随着Ajax技术的不断风靡，其核心技术JavaScript越来越受到人们的关注，各种JavaScript的框架层出不穷。jQuery作为JavaScript框架的优秀代表，为广大开发者提供了诸多便利。PHP+MYSQL网站设计入门视频本视频包括理论篇，高级应用篇和实战篇！ PHP 全名 Hypertext Preprocessor，它是个被广泛运用在WEB开发的语言尤其是它能够嵌入HTML文件之中与数据库结合互动。PHP的目地是Photoshop基础视频教程Photoshop CS是 Adobe 公司出品的迄今为止最优秀的图像处理软件。应用领域涉及平面设计、照片处理、产品包装、网页设计等，是做为一个网站开发人员必会软件之一。本教程是Fireworks视频教程欢迎您来到建站学视频教程，下面列出的是Fireworks视频教程列表，我们还会不断地推出相关的课程， 如果您有兴趣，欢迎您常来这里看一看！精通DIV+CSS网页样式与布局视频欢迎您来到建站学视频教程栏目，下面列出的是DIV+CSS网页设计视频教程。这组视频教程是配合《精通DIV+CSS网页样式与布局》图书制作的，每一课对应于图书中的每一章。希望对关于我们 | 联系我们 | 友情链接 | 网站地图
+本站提供网站制作教程和网站设计教程,还有视频教程和书籍教程下载.?2006-2009 JZxue.com 豫ICP备05007932号   

@@ -1,0 +1,259 @@
+前言、JavaScript和Macromedia Flash的通信示例
+
+原文地址: http://www.macromedia.com/support/flash/ts/documents/java_script_comm.htm
+说明: 略作修改,主要是一些很初级的操作; 又很多相似的文章,不过这个很权威 
+
+下面是一些在Flash和使用Javascript的HTML文件直接通信的示例,每个示例都有简略的步骤
+
+本文讨论了3种基本的Flash/Javascript通信方式:
+Javascript 到 Flash的通信----使用Flash播放器的javascript方法
+Flash 到 Javascript的通信----使用Flash的fscommand
+Flash 到 Flash的通信----------使用本地连接对象或综合上2种技术
+
+并不是所有的浏览器都很重视脚本.为了和Flash播放器通信,浏览器必须有内置的钩子以便Flash播放器可以'监听'.浏览器必须是下列的几种:
+Netscape Navigator 3.0-4.7x, 和 Netscape 6.2或更高
+(Windows 95/98/NT/2000/XP 或 MacOS; 允许Java和LiveConnect)
+Internet Explorer 3.0 或更高
+(仅Windows 95/98/NT/2000/XP; 允许ActiveX)
+
+注意:Macintosh上的Internet Explorer和早期版本的Netscape6不支持这种方法.请查看本文的附加信息
+
+一、Javascript到Flash的通信
+
+这个例子演示了如何使用Flash的method把变量从HTML的input text 发送到该页面中的Flash文件中.HTML input的数据通过Flash的SetVariable方法传送到Flash文件中.
+
+查看示例:示例 
+下载源文件: javascript_to_flash.zip(17k)
+
+步骤:
+
+Flash中
+1.新建一个文件,保存为javascript_to_flash.fla
+2.用文字工具在舞台上创建一个文本域
+3.选择这个文本域,在属性面板中,从下拉列表中选择动态文本(Dynamic Text),在变量(variable)栏填上"myVar"
+注意:最好的习惯是使用Instance,用myVar.text更改myVar的值.为了简单起见和兼容Flash4和Flash5,我们使用的是变量名的形式.
+4.保存文件
+5.发布HTML文件和SWF文件
+
+Dreamweaver中
+下一步的工作转移到Dreamweaver中了,当然也可以是其他的HTML编辑器
+1.打开上一步发布的HTML文件
+2.插入生成的SWF文件和OBJECT/EMBED标签
+(1) Insert>Media>Flash,并选择这个Flash
+(2) 切换到代码视图,我们需要修改被选中的<OBJECT>和<EMBED>标签
+(3) 在OBJECT标签中,插入id="myFlash"
+
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000"
+  codebase="http://download.macromedia.com/pub/shockwave/cabs/
+  flash/swflash.cab#version=5,0,0,0"　
+　width=366 height=142 id="myFlash">注意:如果你是粘贴复制代码的话,确保删除不必要的换行.否则可能会引起错误; id也可以在属性面板里直接输入
+(4) 在EMBED标签中,插入name="myFlash"和swLiveConnect="true",确保没有使用id属性!代码应当是这样子的:
+
+<embed src="javascript_to_flash.swf" quality=high width=366 height=142 
+type="application/x-shockwave-flash" 
+pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?
+P1_Prod_Version=ShockwaveFlash" 
+name="myFlash" swLiveConnect="true">
+</embed> 3.创建表单域
+(1) 回到设计视图
+(2) 插入文本域(Insert> Form Object> Text Field),如果询问是否添加表单域,选择是
+(3) 把文本域的HTML标签修改成这样:
+
+<input type="text" name="sendText" maxlength="45" 
+  onChange="doPassVar(this)">每当文本域内容发生变化时,onChange就被触发,doPassVar()函数就被调用
+
+4.创建传递变量值的Javascript函数
+复制下面的Javascript到<head></head>标签内
+
+<SCRIPT LANGUAGE=JavaScript>
+<!--
+  function doPassVar(args){
+  var sendText = args.value;
+  window.document.myFlash.SetVariable("myVar", sendText);
+  }
+//-->
+</SCRIPT>5.保存文件,测试一下(F12)
+
+二、Flash到Javascript的通信
+
+从HTML可以发送数据到Flash,反过来也可以. 这个例子演示了如何应用Flash的Fscommand来发送数据到Javascript.
+
+查看示例:示例2 
+下载源文件: flash_to_javascript.zip(10K)
+
+简要步骤:
+Flash中
+新建一个文件,保存为flash_to_javascript.fla
+创建一个文本域,设置成输入文本(Input Text),选择"border"以便我们能看到他,指定他的变量为inputVar
+创建一个按钮,在按钮上添加如下的as:
+
+on (release) {
+  fscommand ("send_var", inputVar);
+}保存文件,导出HTML和SWF
+
+Dreamweaver中
+1.打开导出HTML文件,修改<OBJECT>和<EMBED>标签,结果同上:
+
+<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" 
+codebase="http://download.macromedia.com/pub/shockwave/cabs/
+flash/swflash.cab#version=5,0,0,0"
+width=366 height=142 id="myFlash"> 
+
+<embed src="javascript_to_flash.swf" quality=high
+width=366 height=142
+type="application/x-shockwave-flash" 
+pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?
+P1_Prod_Version=ShockwaveFlash" name="myFlash" swLiveConnect="true">
+</embed>2. 插入如下的Javascript到<Body>标签内:
+
+<SCRIPT LANGUAGE=JavaScript>
+<!--
+  var InternetExplorer = navigator.appName.indexOf("Microsoft") != -1;
+  function myFlash_DoFSCommand(command, args) {
+　  var myFlashObj = InternetExplorer ? myFlash : document.myFlash;
+　  alert (args);
+  }
+  if (navigator.appName && navigator.appName.indexOf("Microsoft") 
+  != -1 && 
+  navigator.userAgent.indexOf("Windows") != -1 && navigator.userAgent.indexOf("Windows
+  3.1") == -1) {
+  document.write('<SCRIPT LANGUAGE=VBScript\> \n');
+  document.write('on error resume next \n');
+  document.write('Sub myFlash_FSCommand(ByVal command, ByVal args)\n');
+  document.write(' call myFlash_DoFSCommand(command, args)\n');
+  document.write('end sub\n');
+  document.write('</SCRIPT\> \n');
+  }
+  //-->
+  </SCRIPT> 三、Flash和Flash的通信
+
+通过上面两种方法的混和使用,同一HTML中两个或者更多的Flash直接可以相互传送消息. 从一个flash使用fscommand传送消息给Javascript,使用Flash的Javascript methods把消息传给另外一个flash
+
+详细的看这里:Flash影片之间的通信示例
+
+从Flash MX开始,local connection对象可以用来在flash之间传送消息. 这使得同一HTML中的或者位于两个浏览器窗口中的两个flash影片可以相互发送消息,而不必使用Javascript或者fscommand
+详细的看这里:在Flash MX中使用local connection对象(英文）
+
+本站的localConnection教程：http://www.flashempire.com/school/tutorview.php?id=327
+
+附可控制Flash Player的Javascript方法:
+一览表:
+Play() ---------------------------------------- 播放动画 
+StopPlay()------------------------------------停止动画 
+IsPlaying()----------------------------------- 动画是否正在播放
+GotoFrame(frame_number)---------------- 跳转到某帧 
+TotalFrames()------------------------------- 获取动画总帧数 
+CurrentFrame()------------------------------回传当前动画所在帧数-1 
+Rewind()-------------------------------------使动画返回第一帧 
+SetZoomRect(left,top,right,buttom)-------放大指定区域 
+Zoom(percent)------------------------------改变动画大小 
+Pan(x_position,y_position,unit)------------使动画在x,y方向上平移 
+PercentLoaded()----------------------------返回动画被载入的百分比 
+LoadMovie(level_number,path)----------- 加载动画 
+TGotoFrame(movie_clip,frame_number)- movie_clip跳转到指定帧数 
+TGotoLabel(movie_clip,label_name)------ movie_clip跳转到指定标签 
+TCurrentFrame(movie_clip)--------------- 回传movie_clip当前帧-1 
+TCurrentLabel(movie_clip)-----------------回传movie_clip当前标签 
+TPlay(movie_clip)---------------------------播放movie_clip 
+TStopPlay(movie_clip)----------------------停止movie_clip的播放 
+GetVariable(variable_name)-----------------获取变量 
+SetVariable(variable_name,value)-----------变量赋值 
+TCallFrame(movie_clip,frame_number)---call指定帧上的action 
+TCallLabel(movie_clip,label)----------------call指定标签上的action 
+TGetProperty(movie_clip,property)--------获取movie_clip的指定属性 
+TSetProperty(movie_clip,property,number)-设置movie_clip的指定属
+
+ExternalInterface class仅仅只有两个方法：
+
+addCallback(methodName:String, instance:Object, method:Function) : Boolean 
+Registers an ActionScript method as callable from the container.  
+call(methodName:String, [parameter1:Object]) : Object 
+Calls a function exposed by the Flash Player container, passing 0 or more arguments. 
+这两个方法的使用在手册有详细说明，使用范例可以从flash的安装路径例如C:\Program Files\Macromedia\Flash 8\Samples and Tutorials\Samples\ActionScript\ExternalAPI下面找到，没太大悬念。
+在IE浏览器下，将flash对象放在form标签之间，ExternalInterface class就会给你报javascript错，而firefox下完全正常，这简直是让人很郁闷的事情，折腾了一天才找到问题原因，可能是IE的Bug吧，这个在livedoc上有人反映过类似的问题。见下面的url:
+http://livedocs.macromedia.com/flash/8/main/wwhelp/wwhimpl/common/html/wwhelp.htm?context=LiveDocs_Parts&file=00002200.html
+
+有人提出这样的解决办法，将下面这段javascript放在html里的flash之前：
+
+<script type="text/javascript"> 
+function ExternalInterfaceManager() 
+{ 
+    this.registerMovie = function(movieName) { 
+        if(!window.fakeMovies) window.fakeMovies = new Array(); 
+        window.fakeMovies[window.fakeMovies.length] = movieName; 
+    } 
+    this.initialize = function() { 
+        if(document.all) 
+        { 
+            if(window.fakeMovies) 
+            { 
+                for(i=0;i<window.fakeMovies.length;i++) 
+                { 
+                    window[window.fakeMovies[i]] = new Object(); 
+                } 
+                window.onload = initializeExternalInterface; 
+            } 
+        } 
+  
+    } 
+} 
+function initializeExternalInterface() { 
+    for(i=0;i<window.fakeMovies.length;i++) { 
+        var movieName = window.fakeMovies[i]; 
+        var fakeMovie = window[movieName]; 
+        var realMovie = document.getElementById(movieName); 
+  
+        for(var method in fakeMovie) { 
+            alert(arguments); 
+            realMovie[method] = function() {flashFunction = "<invoke name=\"" + method.toString() + "\" returntype=\"javascript\">" + __flash__argumentsToXML(arguments, 0) + "</invoke>";this.CallFunction(flashFunction);} 
+        } 
+  
+        window[movieName] = realMovie; 
+    } 
+} 
+var eim = new ExternalInterfaceManager(); 
+eim.registerMovie("ShockwaveFlash1"); 
+eim.registerMovie("ShockwaveFlash2"); 
+eim.initialize(); 
+</script> 
+这样就可以一定程度上解决ExternalInterface在form标签之间会报错的问题，是asp.net开发者的福音。
+
+原理
+下面是浏览器载入一个包含ExternalInterface调用的flash之后，flash player可能会用到的方法
+
+
+function __flash__arrayToXML(obj) { 
+    var s = "<array>"; 
+    for (var i=0; i<obj.length; i++) { 
+        s += "<property id=\"" + i + "\">" + __flash__toXML(obj[i]) + "</property>"; 
+    } 
+    return s+"</array>"; 
+} 
+function __flash__argumentsToXML(obj,index) { 
+    var s = "<arguments>"; 
+    for (var i=index; i<obj.length; i++) { 
+        s += __flash__toXML(obj[i]); 
+    } 
+    return s+"</arguments>"; 
+} 
+function __flash__objectToXML(obj) { 
+    var s = "<object>"; 
+    for (var prop in obj) { 
+        s += "<property id=\"" + prop + "\">" + __flash__toXML(obj[prop]) + "</property>"; 
+    } 
+    return s+"</object>"; 
+} 
+function __flash__escapeXML(s) { 
+    return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/’/g, "&apos;"); 
+} 
+function __flash__toXML(value) { 
+   var type = typeof(value); 
+    if (type == "string") { 
+        return "<string>" + __flash__escapeXML(value) + "</string>"; 
+    } else if (type == "undefined") { 
+        return "<undefined/>"; 
+    } else if (type == "number") { 
+        return "<number>" + value + "</number>"; 
+} 
+可以认为现在的ExternalInterface Class仅仅只是可用而已，不够成熟 
+

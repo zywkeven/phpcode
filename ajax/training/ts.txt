@@ -1,0 +1,73 @@
+一步：写一个后台的“接口”，这个可以用任何语言来实现，只要能返回http报文就可以了，我这里以webwork后台代码举个例子
+
+public String hotWeek() throws Exception{
+        HttpServletResponse response = ServletActionContext.getResponse();
+        response.setContentType("text/xml; charset=gb2312");
+        PrintWriter out = response.getWriter();
+        StringBuffer insertHotHtml = new StringBuffer();
+        insertHotHtml.append(" <table width=171 border=0 align=center cellpadding=0 
+cellspacing=0>   "); 
+            insertHotHtml.append("<tr> ");
+            insertHotHtml.append("<td width=23 height=25></td> ");
+            insertHotHtml.append("</tr> ");
+        insertHotHtml.append("</table> ");
+        out.print(insertHotHtml.toString()); //返回一个有表格的HTTP报文
+        return null;
+    }
+　　不用java的朋友根本不用管这些，只要记住，能返回一个HTTP报文，比如一个静态网页也可以。
+
+　　第二步 ：在页面里加入下面这段javascript代码
+
+var xmlHttp;
+function createXMLHttpRequest(){
+    if (window.ActiveXObject){
+        xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+    } 
+    else if (window.XMLHttpRequest){
+        xmlHttp = new XMLHttpRequest();
+    }
+}
+function startAjaxRequest(method,async,actionUrl,data, invokeMethod){
+    createXMLHttpRequest();
+    xmlHttp.open(method, actionUrl, async);
+    xmlHttp.onreadystatechange = handleStateChange;
+    xmlHttp.send(data);
+    function handleStateChange(){
+        if(xmlHttp.readyState == 4){
+            if(xmlHttp.status == 200){
+                var nodeId = xmlHttp.responseText;
+                if (nodeId=='noPermission'){
+                    alert('你没有权限访问此操作!');
+                }else if( (falseIndex = nodeId.indexOf("false||"))!= -1 ){
+                   alert('操作失败，可能的原因为:' + nodeId.substring(
+falseIndex+7, nodeId.length) + "!");
+                }else if(nodeId=='false'){
+                    alert('操作失败，请和管理员联系！');
+                }else ...{
+                    if (invokeMethod == undefined){
+                        getResult(nodeId);
+                    } else {
+                        invokeMethod(nodeId);
+                    }
+                }
+            }
+        }
+    }    
+}
+　　我们要用的就是startAjaxRequest(method,async,actionUrl,data, invokeMethod) 这个方法，具体实现，也不可以不用理会，对于IE和firefox都可以兼容，method 要么是GET，要么是POST，async我们一般都设置为true就可以了，data用来传数据给后台，invokeMethod是指后台返回数据后，前台自动调用什么方法，如果为空，那么就默认调用 invokeMethod(nodeId)这个方法。
+
+$(document).ready(function(){
+            var actionUrl = "./provider!hotWeek.action";
+            $('body').html("<strong>页面加载中...</strong>");
+            startAjaxRequest("GET",true,actionUrl,'');
+    });
+这里我是用jQuery的，一个很好用的javascript框架。
+
+"./provider!hotWeek.action" 就是我们获取HTTP报文的地址，大家完全可以用 比如 myTable.asp myTable.php只要返回的HTTP报文是符合XML规则的HTML语言就可以了。
+
+　　第三步：后台返回后的处理方法
+
+　　function getResult(nodeId){
+        $('body').html(nodeId);
+    }
+总结起来，其实只要 startAjaxRequest("GET",true,actionUrl,'') 这么一个方法就可以去满足大部分AJAX的业务需求了，根本没有必要弄得那么复杂。

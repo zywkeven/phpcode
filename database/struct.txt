@@ -1,0 +1,128 @@
+数据结构：最小堆 哈希表 二叉树 平衡二叉树/红黑树的意义，也就是在什么情况下使用什么数据结构
+
+
+接触堆数据结构是在排序里面讲的，空间复杂度O(1),时间复杂度O(NlogN)，但是在实践中还是不如快速排序（好像快速排序可以更好的利用硬件特性）。堆的意义就在于：最快的找到最大/最小值，在堆结构中插入一个值重新构造堆结构，取走最大/最下值后重新构造堆结构 其时间复杂度为O(logN)，而其他方法最少为O(N).堆实践中用途不在于排序，其主要用在调度算法中，比如优先级调度，每次取优先级最高的，时间驱动，取时间最小/等待最长的 等等 ，分为最大堆/最小堆。
+
+哈希表主要可以在O(1)时间内对查找对象定位，但是事实上，如果输入集合不确定的情况下，可能出现大量的冲突，虽然有很多好的哈希函数，但是随着随机输入，大量冲突还是不可避免，可能出现最差情况。所以，哈希表如果用在输入集合确定（即以后只会做查询操作）的情况下，选择合适的函数函数和解决冲突的方法（perfect hash）可以在O(1)时间内完成查找（有证明，看不懂）。
+
+二叉树支持动态的插入和查找，保证操作在O(height)时间，这就是完成了哈希表不便完成的工作，动态性。但是二叉树有可能出现worst-case，如果输入序列已经排序，则时间复杂度为O(N)
+
+平衡二叉树/红黑树就是为了将查找的时间复杂度保证在O(logN)范围内。
+
+所以如果输入结合确定，所需要的就是查询，则可以考虑使用哈希表，如果输入集合不确定，则考虑使用平衡二叉树/红黑树，保证达到最大效率
+
+
+MySQL Hash索引和B-Tree索引的区别究竟在哪里呢?相信很多人都有这样的疑问，下文对两者的区别进行了详细的分析，供您参考。
+
+　　MySQL Hash索引结构的特殊性，其检索效率非常高，索引的检索可以一次定位，不像B-Tree 索引需要从根节点到枝节点，最后才能访问到页节点这样多次的IO访问，所以 Hash 索引的查询效率要远高于 B-Tree 索引。
+
+　　可 能很多人又有疑问了，既然 Hash 索引的效率要比 B-Tree 高很多，为什么大家不都用 Hash 索引而还要使用 B-Tree 索引呢?任何事物都是有两面性的，Hash 索引也一样，虽然 Hash 索引效率高，但是 Hash 索引本身由于其特殊性也带来了很多限制和弊端，主要有以下这些。
+
+　　(1)MySQL Hash索引仅仅能满足"=","IN"和"<=>"查询，不能使用范围查询。
+
+　　由于 MySQL Hash索引比较的是进行 Hash 运算之后的 Hash 值，所以它只能用于等值的过滤，不能用于基于范围的过滤，因为经过相应的 Hash 算法处理之后的 Hash 值的大小关系，并不能保证和Hash运算前完全一样。
+
+　　(2)MySQL Hash索引无法被用来避免数据的排序操作。
+
+　　由于 MySQL Hash索引中存放的是经过 Hash 计算之后的 Hash 值，而且Hash值的大小关系并不一定和 Hash 运算前的键值完全一样，所以数据库无法利用索引的数据来避免任何排序运算;
+
+　　(3)MySQL Hash索引不能利用部分索引键查询。
+
+　　对于组合索引，Hash 索引在计算 Hash 值的时候是组合索引键合并后再一起计算 Hash 值，而不是单独计算 Hash 值，所以通过组合索引的前面一个或几个索引键进行查询的时候，Hash 索引也无法被利用。
+
+　　(4)MySQL Hash索引在任何时候都不能避免表扫描。
+
+　　前面已经知道，Hash 索引是将索引键通过 Hash 运算之后，将 Hash运算结果的 Hash 值和所对应的行指针信息存放于一个 Hash 表中，由于不同索引键存在相同 Hash 值，所以即使取满足某个 Hash 键值的数据的记录条数，也无法从 Hash 索引中直接完成查询，还是要通过访问表中的实际数据进行相应的比较，并得到相应的结果。
+
+　　(5)MySQL Hash索引遇到大量Hash值相等的情况后性能并不一定就会比B-Tree索引高。
+
+　　对于选择性比较低的索引键，如果创建 Hash 索引，那么将会存在大量记录指针信息存于同一个 Hash 值相关联。这样要定位某一条记录时就会非常麻烦，会浪费多次表数据的访问，而造成整体性能低下。
+
+
+一:mysql里目前只支持4种索引分别是:b-tree,full-text,hash以及r-tree索引
+
+b-tree索引应该是mysql里最广泛的索引的了,除了archive,基本所有的存储引擎都支持它.
+
+1.b-tree在myisam里的形式和innodb稍有不同
+
+在 innodb里面有两种形态:其一是primary key形态其leaf node里存放的是数据.而且不仅存放了索引键的数据,还存放了其他字段的数据.其二是secondary index,其leaf node和普通的b-tree差不多,只是还存放了指向主键的信息.
+
+而在myisam里,主键和其他的并没有太大区别.不过和innodb不太一样的地方是,在myisam里,leaf node里存放的不是主键的信息,存的是指向数据文件里的对应数据行的信息.
+
+2.hash索引,目前我所知道的就只有memory和ndb cluster支持这种索引.
+
+hash索引由于其结构,所以在每次查询的时候直接一次到位不行b-tree那样,一点点的前进,所以hash索引的效率高于b-tree.但hash也有缺点,主要如下:
+
+(1)由于存放的是hash值,所以仅支持<=>以及in操作.
+
+(2)hash索引无法通过操作索引来排序,这是因为存放的时候经过hash计算,但是计算的hash值和存放的不一定相等,所以无法排序.
+
+(3)在组合所以里,无法对部分使用索引.
+
+(4)不能避免全表扫描,只是由于在memory表里支持非唯一值hash索引,就是不同的索引键,可能存在相同的hash值.
+
+(5)当存在大量相同hash值得时候,hash索引的效率会变低.
+
+3.full-text索引
+
+full-text在mysql里仅有myisam支持它,而且支持full-text的字段只有char,varchar,以及text数据类型,full-text主要是用来代替like "%***%"效率低下的问题的.
+
+4.r-tree索引
+
+r-tree在mysql很少使用,仅支持geometry数据类型,支持该类型的存储引擎只有myisam,bdb,innodb,ndb,archive几种.相对于b-tree,r-tree的优势在于范围查找.
+
+ 
+
+二:mysql里sql语句值得注意的地方
+
+1.myisam里所以键的长度仅支持1000字节,innodb是767.
+
+2.blob和text字段仅支持前缀索引.
+
+3.使用!=以及<>不等于的时候mysql不使用索引.
+
+4.当在字段时候函数的时候,mysql无法使用索引,在join的时候条件字段类型不一致的时候,mysql无法使用索引,在组合索引里使用非第一个索引时也不使用索引.
+
+5.在使用like的时候,以%开头,即"%***"的时候无法使用索引,在使用or的时候,要求or前后字段都有索引.
+
+有时候mysql query optimizer会认为使用索引并不是最优计划,所以不使用索引,可以在sql语句里可以用use,force index,当然有时候使用也不会比不用快,所以需要忽略掉index方法是ignore index.
+
+关闭查询缓存sql_no_cache
+
+select sql_no_cache * from table_name;
+
+这样可以让一些很少使用的语句不放在缓存里,查找的时候不会去缓存里找.对应的是强制缓存sql_cache
+
+select sql_cache * from table_name;
+
+另外在my.cnf中如果设置query_cache_type=2的话,那么只有在使用sql_cache后才会使用缓存;
+
+还有mysql里的优先操作hight_priority让mysql优先操作这个语句
+
+select high_priority * fromtable_name;
+
+与其对应的是low_priority;
+
+mysql里还有延时插入insert delayed
+
+insert delayed into table_name....;#当提交之后,mysql返回ok,但不立即插入,二十当mysql有空再插入.假如等待时服务器崩溃,那么所有数据丢失!并且插入不会返回自增id.
+
+再转几个技巧:
+
+强制连接顺序 STRAIGHT_JOIN
+
+SELECT TABLE1.FIELD1, TABLE2.FIELD2 FROM TABLE1 STRAIGHT_JOIN TABLE2 WHERE …
+
+由上面的SQL语句可知，通过STRAIGHT_JOIN强迫MySQL按TABLE1、TABLE2的顺序连接表。如果你认为按自己的顺序比MySQL推荐的顺序进行连接的效率高的话，就可以通过STRAIGHT_JOIN来确定连接顺序。
+
+强制使用临时表 SQL_BUFFER_RESULT
+
+SELECT SQL_BUFFER_RESULT * FROM TABLE1 WHERE …
+
+当我们查询的结果集中的数据比较多时，可以通过SQL_BUFFER_RESULT.选项强制将结果集放到临时表中，这样就可以很快地释放MySQL的表锁（这样其它的SQL语句就可以对这些记录进行查询了），并且可以长时间地为客户端提供大记录集。
+
+分组使用临时表 SQL_BIG_RESULT和SQL_SMALL_RESULT
+
+SELECT SQL_BUFFER_RESULT FIELD1, COUNT(*) FROM TABLE1 GROUP BY FIELD1;
+
+一般用于分组或DISTINCT关键字，这个选项通知MySQL，如果有必要，就将查询结果放到临时表中，甚至在临时表中进行排序。SQL_SMALL_RESULT比起SQL_BIG_RESULT差不多，很少使用。

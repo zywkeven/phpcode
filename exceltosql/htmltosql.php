@@ -1,0 +1,389 @@
+<?php  
+mysql_connect("127.0.0.1","pgm2","pgm2");
+mysql_select_db("pgm2");  
+
+$temp=file("personal.csv");//连接EXCEL文件,格式为了.csv 
+ $i=0;  
+while($i<count($temp)) 
+{  
+   $string=$temp[$i];     
+  if($pos=strpos($string,'简历编号：'))
+  { 
+  $length=strlen('简历编号：');
+   $orderno=substr($string,$pos+$length,9);
+  $pos=strpos($string,'更新日期：');
+  $length=strlen('更新日期：');     
+   $lastupdate=substr($string,$pos+$length,19); 
+ //----------------------------------------------------------------------------- 
+ while(!($pos=strpos($string,'姓　　名：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('姓　　名：'); 
+ $posright=strpos($string,'国　　籍：'); 
+  $name=substr($string,$pos+$length,$posright-$pos-$length); 
+ $length=strlen('国　　籍：');
+  $country=substr($string,$posright+$length); 
+ //----------------------------------------------------------------------------- 
+     while(!($pos=strpos($string,'目前住地：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('目前住地：'); 
+ $posright=strpos($string,'民　　族：'); 
+  $address=substr($string,$pos+$length,$posright-$pos-$length); 
+ $length=strlen('民　　族：');
+  $national=substr($string,$posright+$length);  
+  //----------------------------------------------------------------------------- 
+     while(!($pos=strpos($string,'户 籍 地：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('户 籍 地：'); 
+ $posright=strpos($string,'身高体重：'); 
+  $household=substr($string,$pos+$length,$posright-$pos-$length); 
+ $length=strlen('身高体重：');
+  $heightweight=substr($string,$posright+$length);
+  //----------------------------------------------------------------------------- 
+     while(!($pos=strpos($string,'婚姻状况：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('婚姻状况：'); 
+ $posright=strpos($string,'年　　龄：'); 
+  $marry=substr($string,$pos+$length,$posright-$pos-$length); 
+ $length=strlen('年　　龄：');
+  $age=substr($string,$posright+$length);  
+ //----------------------------------------------------------------------------- 
+     while(!($pos=strpos($string,'培训认证：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('培训认证：'); 
+ $posright=strpos($string,'诚信徽章：'); 
+  $training=substr($string,$pos+$length,$posright-$pos-$length); 
+ $length=strlen('诚信徽章：');
+  $badge=substr($string,$posright+$length);   
+  //-----------------------------------------------------------------------------   
+  while(!($pos=strpos($string,'人才类型：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('人才类型：'); 
+  $talenttype=substr($string,$pos+$length); 
+ while(!($pos=strpos($string,'应聘职位：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('应聘职位：'); 
+  $forcareer=substr($string,$pos+$length);  
+ //----------------------------------------------------------------------------- 
+     while(!($pos=strpos($string,'工作年限：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('工作年限：'); 
+ $posright=strpos($string,'职　　称：'); 
+  $workage=substr($string,$pos+$length,$posright-$pos-$length); 
+ $length=strlen('职　　称：');
+  $career=substr($string,$posright+$length);
+  //----------------------------------------------------------------------------- 
+     while(!($pos=strpos($string,'求职类型：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('求职类型：'); 
+ $posright=strpos($string,'可到职日期：'); 
+  $worktype=substr($string,$pos+$length,$posright-$pos-$length); 
+ $length=strlen('可到职日期：');
+  $onworkdate=substr($string,$posright+$length); 
+ //----------------------------------------------------------------------------- 
+     while(!($pos=strpos($string,'月薪要求：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('月薪要求：'); 
+ $posright=strpos($string,'希望工作地区：'); 
+  $salary=substr($string,$pos+$length,$posright-$pos-$length); 
+ $length=strlen('希望工作地区：');
+  $workaddress=substr($string,$posright+$length); 
+ 
+ //------education----------------------------------------------------------------------- 
+  $k=1; 
+  if($company)
+  {
+  unset($company);
+  unset($workdate); 
+  unset($companytype); 
+  unset($companyIndustry); 
+  unset($duty); 
+  unset($descrition); 
+  unset($reason); 
+  }
+  
+  
+  while(!($pos=strpos($string,'教育背景')))
+  { 
+ if(($pos=strpos($string,'公司名称：')))
+ {
+ if($k>3)
+ break; 
+ $length=strlen('公司名称：'); 
+ $posright=strpos($string,'起止年月：'); 
+  $company[$k]=substr($string,$pos+$length,$posright-$pos-$length); 
+ $length=strlen('起止年月：');
+  $workdate[$k]=substr($string,$posright+$length); 
+ //-------------------------------------------------------------------------------------- 
+  while(!($pos=strpos($string,'公司性质：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('公司性质：'); 
+ $posright=strpos($string,'所属行业：'); 
+  $companytype[$k]=substr($string,$pos+$length,$posright-$pos-$length); 
+ $length=strlen('所属行业：');
+  $companyIndustry[$k]=substr($string,$posright+$length); 
+ //-------------------------------------------------------------------------------------- 
+  while(!($pos=strpos($string,'担任职务：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('担任职务：');  
+  $duty[$k]=substr($string,$pos+$length); 
+//-------------------------------------------------------------------------------------- 
+ while(!($pos=strpos($string,'工作描述：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+  $length=strlen('工作描述：');
+  $string=substr($string,$pos+$length);
+ //------------------------------------------------------------------------------------- 
+ while(!($pos=strpos($string,'离职原因：')))
+ { 
+ $i++;  
+ $string.=$temp[$i];
+ $stringlast=$temp[$i];
+ } 
+  $descrition[$k]=substr($string,0,strlen($string)-strlen($stringlast));
+  
+ while(!($pos=strpos($stringlast,'离职原因：')))
+ {   
+ $i++;
+ unset($string);
+ $stringlast=$temp[$i];  
+ }
+ $length=strlen('离职原因：');  
+  $reason[$k]=substr($stringlast,$pos+$length);
+  $k++;  
+ } 
+ $i++;
+ unset($string);
+ $string=$temp[$i]; 
+ }    
+ //-------end education-------------------------------------------------------------------------------------   
+ while(!($pos=strpos($string,'毕业院校：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('毕业院校：'); 
+  
+  $graduate=substr($string,$pos+$length);     
+ //--------------------------------------------------------------------------------
+       while(!($pos=strpos($string,'最高学历：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('最高学历：'); 
+ $posright=strpos($string,'毕业日期：'); 
+  $qualifications=substr($string,$pos+$length,$posright-$pos-$length); 
+ $length=strlen('毕业日期：');
+  $graduatedate=substr($string,$posright+$length); 
+ //--------------------------------------------------------------------------------
+       while(!($pos=strpos($string,'所学专业：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('所学专业：'); 
+ $posright=strpos($string,'第二专业：'); 
+  $profession=substr($string,$pos+$length,$posright-$pos-$length); 
+ $length=strlen('第二专业：');
+  $secondprofession=substr($string,$posright+$length);
+ 
+ //-----------------------experience-------------------------------------------------- 
+   while(!($pos=strpos($string,'培训经历：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ } 
+  $i++;
+  unset($string); 
+  
+  $k=1;
+  if(isset($experience))
+  unset($experience);
+ while(!($pos=strpos($string,'语言能力')))
+ {  
+ if($k>5)
+ break;
+  
+  $string=$temp[$i];
+    $experience[$k]=$string; 
+   $k++; 
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }   
+  //--------------------------------------------------------------------------------
+       while(!($pos=strpos($string,'外　　语：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('外　　语：');  
+  $foreignlan=substr($string,$pos+$length);
+  //--------------------------------------------------------------------------------
+       while(!($pos=strpos($string,'国语水平：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('国语水平：'); 
+ $posright=strpos($string,'粤语水平：'); 
+  $chinese=substr($string,$pos+$length,$posright-$pos-$length); 
+ $length=strlen('粤语水平：');
+  $cantonese=substr($string,$posright+$length);
+  //-------------------------------------------------------
+ while(!($pos=strpos($string,'工作能力及其他专长')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $i++; 
+ $string=$temp[$i]; 
+ while(!($pos=strpos($string,'详细个人自传')))
+ { $i++; 
+ $string.=$temp[$i];
+ $stringlast=$temp[$i]; 
+ } 
+  $expertise=substr($string,0,strlen($string)-strlen($stringlast));
+ //-------------------------------------------------------------------------- 
+while(!($pos=strpos($string,'详细个人自传')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $i++; 
+ $string=$temp[$i]; 
+ while(!($pos=strpos($string,'个人联系方式')))
+ { 
+ $i++;  
+ $string.=$temp[$i];
+ $stringlast=$temp[$i];
+ } 
+  $personalintro=substr($string,0,strlen($string)-strlen($stringlast));  
+ //--------------------------------------------------------------------------------
+while(!($pos=strpos($string,'通讯地址：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('通讯地址：'); 
+   $connectadd=substr($string,$pos+$length); 
+  //--------------------------------------------------------------------------------
+ while(!($pos=strpos($string,'联系电话：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('联系电话：'); 
+ $posright=strpos($string,'家庭电话：'); 
+  $connecttel=substr($string,$pos+$length,$posright-$pos-$length); 
+ $length=strlen('家庭电话：');
+  $statictel=substr($string,$posright+$length);
+  //-------------------------------------------------------------------------------- 
+      while(!($pos=strpos($string,'手　　机：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('手　　机：'); 
+ $posright=strpos($string,'ＱＱ号码：'); 
+  $mobilphone=substr($string,$pos+$length,$posright-$pos-$length); 
+ $length=strlen('ＱＱ号码：');
+  $qqno=substr($string,$posright+$length);
+   //-------------------------------------------------------------------------------- 
+      while(!($pos=strpos($string,'电子邮件：')))
+ {   
+ $i++;
+ unset($string);
+ $string=$temp[$i];  
+ }
+ $length=strlen('电子邮件：'); 
+ $posright=strpos($string,'个人主页：'); 
+  $email=substr($string,$pos+$length,$posright-$pos-$length); 
+ $length=strlen('个人主页：');
+  $personalhome=substr($string,$posright+$length); 
+  
+  $query="insert into personal_inf(orderno,lastupdate,name,country,address,national,household,heightweight,marry,age
+  ,training,badge,talenttype,forcareer,workage,career,worktype,onworkdate,salary,workaddress
+  ,company1,workdate1,companytype1,companyIndustry1,duty1,descrition1,reason1,company2,workdate2,companytype2
+  ,companyIndustry2,duty2,descrition2,reason2,company3,workdate3,companytype3,companyIndustry3,duty3,descrition3
+  ,reason3,graduate,qualifications,graduatedate,profession,secondprofession,experience1,experience2,experience3,experience4
+  ,experience5,foreignlan,chinese,cantonese,expertise,personalintro,connectadd,connecttel,statictel,mobilphone
+  ,qqno,email,personalhome)
+  values('$orderno','$lastupdate','$name','$country','$address','$national','$household','$heightweight','$marry','$age'
+  ,'$training','$badge','$talenttype','$forcareer','$workage','$career','$worktype','$onworkdate','$salary','$workaddress'
+  ,'$company[1]','$workdate[1]','$companytype[1]','$companyIndustry[1]','$duty[1]','$descrition[1]','$reason[1]','$company[2]','$workdate2','$companytype[2]'
+  ,'$companyIndustry[2]','$duty[2]','$descrition[2]','$reason[2]','$company[3]','$workdate[3]','$companytype[3]','$companyIndustry[3]','$duty[3]','$descrition[3]'
+  ,'$reason[3]','$graduate','$qualifications','$graduatedate','$profession','$secondprofession','$experience[1]','$experience[2]','$experience[3]','$experience[4]'
+  ,'$experience[5]','$foreignlan','$chinese','$cantonese','$expertise','$personalintro','$connectadd','$connecttel','$statictel','$mobilphone'
+  ,'$qqno','$email','$personalhome')";
+  mysql_query($query); 
+  
+  }
+   
+ $i++; 
+} 
+?> 
+
+

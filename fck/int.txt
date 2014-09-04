@@ -1,0 +1,147 @@
+   web_lover, W3C, AJAX, ASP.NET, PHP
+I love web!
+登录注册全站当前博客空间博客好友相册论坛留言用户操作
+[即时聊天] [发私信] [加为好友]
+skyaspnetID：skyaspnet
+
+共26587次访问，排名4690(-1)，好友145人，关注者144人。
+WEB开发者
+skyaspnet的文章
+原创 30 篇
+翻译 0 篇
+转载 114 篇
+评论 22 篇 
+最近评论
+holon：不错，支持一下。
+
+------------------------------
+www.arraylist.cn cn域名免费送
+IT人的酒吧式交流平台
+-----------------------------
+
+luoweihua7：mark一下.确实.fck功能强大.强大到很多我们不需要.精简还是很有必要的
+AiZoey：谢谢 解决问题了
+lee576：这是一篇MVP写的文章，还不错，我转贴啦
+king2003：理论依据是啥 
+文章分类
+ASP.NET(RSS)
+c1驾照(RSS)
+CSS(RSS)
+C语言(RSS)
+JavaScript(RSS)
+PHP(RSS)
+RSS(RSS)
+silverlight(RSS)
+SQLServer(RSS)
+wap相关(RSS)
+WEB笔记(RSS)
+常用电脑技巧(RSS)
+程序员健康(RSS)
+技术理论(RSS)
+考研之路(RSS)
+人生哲理(RSS)
+数据结构(C语言)(RSS)
+文学收藏(RSS)
+收藏
+相册
+我的WEB2.0图片
+存档
+2008年11月(7)
+2008年10月(10)
+2008年07月(22)
+2008年06月(9)
+2008年05月(51)
+2008年04月(34)
+2008年03月(11)
+订阅我的博客
+  
+
+
+
+
+
+
+
+
+
+  PHP中设置FCKeditor2.6收藏
+新一篇: 如何编译asp.net网站 | 旧一篇: 浅析大型网站的架构
+FCKeditor 是一个十分强大的网页文本编辑器,它支持多种脚本编程语言和支持多国语言.如果你还不知道或者你知道还不会配置这个的话,请你继续往下看.
+我用是FCKeditot的版本是2.6,官方网站上去下载 http://www.FCKeditor.net/
+
+本文介绍的是关于php的配置方法,其他语言略有不同.
+假设网站的目录为: \FCKeditor 一:调用FCKeditor的两种方法 1:通过创建实例 在这里只写调用它的代码了,网站的其他代码当然由你自己写了,把下面的代码加在应该加的地方. <?php include_once("FCKeditor/fckeditor.php"); //引用FCKeditor.php这个文件 $FCKeditor=new FCKeditor('welefen'); //创建FCKeditor对象的实例 $FCKeditor->BasePath='FCKeditor/'; //FCKeditor所在的位置,这里它的位置就是'FCKeditor/'; $FCkeditor->ToolbarSet='Default'; //工具按钮设置 $FCKeditor->Width='100%'; //设置它的宽度 $FCKeditor->Height='300px'; //设置它的高度 $FCkeditor->Create(); ?> 2:通过iframe调用创建 在你认为该加的地方加上 <INPUT id=content style="DISPLAY: none" type=hidden name="welefen"> <INPUT id=content___Config style="DISPLAY: none" type=hidden> <IFRAME id=content___Frame src="FCKeditor/editor/fckeditor.html?InstanceName=welefen&amp;Toolbar=Default" frameBorder=0 width=100% scrolling=no height=300> </IFRAME>
+
+对上述两种方法的说明:
+在上述两种方法中,你都看到了字符串'welefen',你可能不知道是什么意思,现在我给你解释一下 如果你要将文本编辑器中的内容在另外一个页面显示或者要将在它保存在数据库,你可以用 $_POST['welefen']或者用$_GET['welefen']来获取文本编辑器中的内容,具体是用post还是用get那要看你用的是什么传递方法了 当然你也可以把welefen改成你想要用的,如'content'.
+如果你还不知道什么是ajax,那么这一段话你就不用看了. 当你用ajax的来获得内容的时候是不是发现得不到内容,如: <script>alert(document.form.content.value)</script>你会发现谈出的窗口没内容 那么我们可以通过下面的代码来获得它的内容: function getContentValue() { var oEditor = FCKeditorAPI.GetInstance('content') ; var acontent=oEditor.GetXHTML(); return acontent; }
+
+二:配置一些文件 
+
+1:fckconfig.js的配置 
+
+(1).工具按钮设置
+
+查找FCKConfig.ToolbarSets["Default"],这里有很多按钮,下面我们将对他们详细介绍
+EditSource 显示HTML源代码 StrikeThrough 删除线 Save 保存 Subscript 下标 NewPage 新建空白页面 Superscript 上标 Preview 预览 JustifyLeft 左对齐 Cut 剪切 JustifyCenter 居中对齐 Copy 复制 JustifyRight 右对齐 Paste 粘贴 JustifyFull 两端对齐 PasteText 纯文本粘贴 InsertOrderedList 自动编号 PasteWord 来自Word的粘贴 InsertUnorderedList 项目符号 Print 打印 Outdent 减少缩进 SpellCheck 拼写检查 Indent 增加缩进 Find 查找 ShowTableBorders 显示表格线 Replace 替换 ShowDetails 显示明细 Undo 撤销 Form 添加Form动作 Redo 还原 Checkbox 复选框 SelectAll 全选 Radio 单选按钮 RemoveFormat 去除格式 Input 单行文本框 Link 插入/编辑 链接 Textarea 滚动文本框 RemoveLink 去除连接 Select 下拉菜单 Anchor 锚点 Button 按钮 Image 插入/编辑 图片 ImageButton 图片按钮 Table 插入/编辑 表格 Hidden 隐藏 Rule 插入水平线 Zoom 显示比例 SpecialChar 插入特殊字符 FontStyleAdv 系统字体 UniversalKey 软键盘 FontStyle 字体样式 Smiley 插入表情符号 FontFormat 字体格式 About 关于 Font 字体 Bold 粗体 FontSize 字体大小 Italic 斜体 TextColor 文字颜色 Underline 下划线 BGColor 背景色
+这个默认的是包含了所有的工具按钮,不过到我们具体要用的时候,有的按钮并不需要,而且还影响速度.那么我们可以将我们不需要的按钮给删了.下面是我的配置,给大家一个参考,当然你可以根据你的喜好. FCKconfig.ToolbarSets["Default"] = [ ['EditSource','Save','NewPage','Preview','-','Cut','Copy','Paste','PasteText','-','Find','Replace','-','Undo','Redo','-','SelectAll','-','Link','RemoveLink','-','Image','Table','Rule','SpecialChar','Smiley'] , ['Bold','Italic','Underline','-','JustifyLeft','JustifyCenter','JustifyRight','-','InsertOrderedList','InsertUnorderedList','-','Form','Checkbox','Radio','Input','Textarea','Select','Button','-','FontStyleAdv','TextColor'] ] ;
+如果在前台给用户回复一写帖子的话,还是没必要要上面的,这时你可以在加一个: FCKConfig.ToolbarSets["Basic"] = [ ['Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink','-','About'] ] ;
+这样的话,你在前台调用的时候就要用$FCKeditor->ToolbarSet='Basic',不能在为"Default"了.
+
+(2):语言的配置
+查找FCKConfig.DefaultLanguage将它设置为'zh-cn'.
+
+(3):脚本语言的设置
+查找var _FileBrowserLanguage和var _QuickUploadLanguage将他们设置为'php', 默认是'asp',如果这里不设置的话,图片将不能上传,这点很重要.当时我在用FCKeditor由于没配置这个,不能上传图片,而我同寝室的用asp能上传图片,让我烦恼了好多天,最后终于找到是这个原因.
+
+2:图片上传的配置
+打开文件FCKeditor/editor/filemanager/browser/default/connectors/php/config.php 查找$Config['Enabled'],将它设置为'true' 查找$Config['UserFilesPath'],将它设置图片的目录,这个目录是相对于主目录的 //例如:我写了一个blog,就可以设置为/blog/upload/
+打开文件FCKeditor/editor/filemanager/upload/php/config.php 查找$Config['Enabled'],将它设置为'true' 查找$Config['UseFileType'],将它设置上传文件的目录,最好与上面的图片目录相同
+好了,现在所有的配置都已经完成了,现在你要做的只是删除一些不必要的文件了 只要包含'_'的目录名和文件名都可以删除,当然你用的是php,其他语言的一些目录也都可以删除,这样就减小了文件的大小.
+FCKEDITOR的FCKeditor_2.6\fckeditor\_samples下有各种语言使用的例子
+关键要注意设置BasePath正确,否则找不到文件.
+发表于 @ 2008年05月09日 23:09:16|评论(0)|编辑
+
+新一篇: 如何编译asp.net网站 | 旧一篇: 浅析大型网站的架构评论：没有评论。发表评论
+姓   名：请输入名字 
+主   页： 
+校验码：  检验码无效!  看不清,换一张 
+请输入评论
+
+
+当前用户设置只有注册用户才能发表评论。如果你没有登录，请点击登录   Csdn Blog version 3.1a 
+Copyright ? skyaspnet  
+
+
+今天下午在遇到了一个页面行间距过大的问题，解决过程有点曲折，现把过程记下
+
+页面内容为动态抓取，编辑器使用的是FCK
+
+首先自然是想到了，FCK的回车换行为P的问题，找到了FCK的配置文件：fckconfig.js
+
+
+找到以下字段：
+
+FCKConfig.EnterMode = 'p' ;  
+FCKConfig.ShiftEnterMode = 'br' ;
+
+表示当使用回车换行时，默认使用p断行（使用shift+回车为br 断行）
+
+改为如下方式：
+
+FCKConfig.EnterMode = 'br' ;      
+FCKConfig.ShiftEnterMode = 'p' ;
+
+以为大功告成，甚至都没测试，就告诉别人已经ok，正准备吹嘘之际，同事告知问题依旧，有点傻眼
+
+进入数据库，发现新存进去的内容确实已经变成了br 断行，可为什么还会有问题呢
+
+打开页面，浏览页面源文件，发现每个断行都使用了两个br
+
+不禁奇怪，于是拿来其页面模板一看，笑了
+
+原来使用的是smarty，而为了使内容不至于撑破表格，给长内容增加了nl2br格式，于是就产生了上述问题
+
+删除nl2br 问题解决
+
+可是又带来了新问题：当自己手动疯狂输入不断行时，会出现撑破表格，致使整个页面布局变乱的问题，解决方案晚上再发：》

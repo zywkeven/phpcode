@@ -1,0 +1,142 @@
+body{margin:0px;padding:0px;background:#E3E3E3;margin:20px;color:#000000;font: normal normal normal small/1.4em Verdana, sans-serif;}
+
+#maincontainer{width:750px;margin:0px auto;padding:0px;height:100%;}
+
+#outerborder{float:left;border:solid 3px blue;width:750px;}
+
+#contentwrapper{float:left;width:750px;margin:0px;padding:0px;height:100%;
+font-family:verdana,sans-serif;font-size:11px;background:#FFFFFF;
+}
+
+#header{
+padding:10px;
+border-bottom:solid 2px blue;
+}
+
+#header h1{
+color:red;
+font-size:20px;
+}
+
+#mid_content{
+clear:both;
+width:100%;
+height:auto;
+}
+
+
+#mid_content p{
+width:100px;
+float:right;
+margin:0px;
+padding:0;
+}
+#mid_content p a{
+color:red;
+text-decoration:none;
+}
+
+#mid_content p a:hover{
+color:red;
+text-decoration:underline;
+}
+
+#left_content{
+float:left;
+width:248px;
+}
+
+#left_content ul{
+float:left;
+list-style:none;
+width:90%;
+margin:10px auto;
+padding:10px;
+}
+#left_content ul li.vercol{
+float:left;
+width:110px;
+text-transform:capitalize;
+text-decoration:none;
+}
+#left_content ul li.vercol a{
+color:#000;
+text-decoration:none;
+}
+#left_content ul li.vercol a:hover{
+color:#000;
+text-decoration:underline;
+}
+.price_list{
+float:right;
+text-align:left;
+}
+
+#right_content{
+float:left;
+width:440px;
+padding:20px;
+}
+fieldset{
+width:250px;
+margin:0px auto;
+border:solid 1px blue;
+padding:5px 15px;
+}
+
+legend{
+color:#000;
+}
+.fieldbox{
+text-transform:capitalize;
+font-size:12px;
+padding:0 2px;
+}
+.fieldtxt{
+color:blue;
+}
+.btn{
+background:#000;
+color:#fff;
+font-weight:bold;
+cursor:pointer;
+}
+
+#btm_content{
+clear:both;
+width:100%;
+margin:0 auto;
+}
+
+#btm_content p{
+text-indent:0.25cm;
+color:red;
+}
+
+table.showcartTable{
+width:90%;
+margin:20px auto;
+border:solid 1px #000000;
+text-align:center;
+}
+table.showcartTable th{
+color:red;
+border-bottom:solid 1px #000000;
+}
+table.showcartTable th.borclass{
+border-right:solid 1px #000000;
+}
+table.showcartTable td{
+font-weight:normal;
+color:#0000000;
+text-indent:0.1cm;
+margin:0px;
+}
+table.showcartTable td.borclass{
+border-right:solid 1px #000000;
+}
+
+table.showcartTable td.grandtot{
+border-top:solid 1px #000000;
+color:blue;
+}

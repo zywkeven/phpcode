@@ -1,0 +1,4 @@
+字体采用绝对的等宽字体，常用的有新宋体/ FixedSys / Courier New
+
+
+mingliu字体支持繁体

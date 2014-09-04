@@ -1,0 +1,37 @@
+维基百科上对 Memcached 的介绍是一个分布式的缓存系统， 但是 Memcachd 到底是什么意思，有什么作用呢？缓存一般用来保存一些经常被存取的数据和资源（例如：浏览器会将访问过的网页会话缓存起来），因为通过缓存来存取数据要比从磁盘存取同样的数据要快得多。所以 Memcached 顾名思义，意味着 “内存缓存”，所有缓存的内容都在服务器的内存中。内存中的这些缓存数据可以通过 API 的方式被存取。数据是以 key/value 的配对方式存在的，就像一像大的 Hash 表。
+<?php
+ 
+class MyCache
+{
+  private $cache;
+  function  __construct()
+  {
+    $this->cache = new Memcache();
+    // you can replace localhost by Memcached server IP addr and port no.
+    $this->cache->connect('localhost', 10987);
+  }
+ 
+  function get_data($key)
+  {
+    $data = $this->cache->get($key);
+    if($data != null)
+      return $data;
+    else
+    {
+      if($this->cache->getResultCode() == Memcached::RES_NOTFOUND)
+      {
+        //do the databse query here and fetch data
+        $this->cache->set($key,$data_returned_from_database);
+      }
+      else
+      {
+        error_log('No data for key '.$key);
+      }
+    }
+  }
+}
+ 
+$cache = MyCache();
+$cache->get_data('foo');
+ 
+?>

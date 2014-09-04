@@ -1,0 +1,26 @@
+2010-03-10  searchstream:搜索公司，图片，人物
+2010-3-16 searchstream:过滤广告,如apple
+2010-3-18 http://www.cgcc.org.hk/b5/index.aspx 会员使用post网站乱
+http://www.cgcc.org.hk/b5/trade/member/memberform.aspx
+
+		http://www.hkkcc.org.hk/ frame使用，
+		http://www.hkprinters.org/member_search.asp
+http://hk.88db.com/
+搜索公司
+php test.php cmd 命令行搜索
+index all顺序
+分类网页categories 
+index url搜索，加charset，torrent,emute,
+domain搜索，存在主机，
+whois搜索主机信息；
+将VB搜索的网页存入数据库;
+vb编码是gbk，转成utf8
+http://siteexplorer.search.yahoo.com/submit yahoo  seo
+http://www.google.com.hk/addurl/ google
+
+210-5-10 
+pos 
+chengrun 
+submit url to google,用excess
+submit url to yahoo,
+

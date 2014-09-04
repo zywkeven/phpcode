@@ -1,0 +1,180 @@
+http://flyuphigh.com/x00/2008-08/18705.htm
+
+
+
+技术大全程序设计及算法客户端软件开发网站开发技术游戏秘技攻略网文收藏 [超级苍蝇]首页 → 网站开发技术 → PHP/MySQL 相关 
+背景：           阅读新闻 PHP程序与服务器端通讯方法小结
+[日期：2008-08-28] 作者：网络转载 [字体：大 中 小]  
+
+　  假设有10个网站，分布在各地，它们的库存要同步，而数据库不支持远程连接。 
+
+　　我们要实时地取得服务器的库存数，可以通过很多种方法，我所知道的有以下几种：
+　　　·CURL方式
+
+　　　·SOCKET方式
+
+　　　·PHP5中的SOAP方式
+
+　　以下分别给出示例来实现它：
+
+　　CURL方式
+
+　　client.php
+
+＜?php
+$psecode = ’NDE005’;
+$website = ’www.abc.com’;
+$amt = 1;
+$pwd = 123456;
+$ch = curl_init();
+$curl_url = "http://ics1.server.com/index.php?web=" . $website . 
+"&pwd=" . $pwd . "&action=check&pseid=" . $psecode . 
+"&amt=" . $amt;
+curl_setopt($ch, CURLOPT_URL, $curl_url);
+curl_setopt($ch, CURLOPT_POST, 1);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//不直接输出，返回到变量
+$curl_result = curl_exec($ch);
+$result = explode(’,’, $curl_result);
+curl_close($ch);
+print_r($result);
+?＞ 
+
+　　服务器端只需按一定的格式输出，然后客户端按此格式接收就可以了如：
+
+    echo "OK," . $fpsecode . "," . $fbalance ;//以逗号分隔 
+
+　　SOCKET方式
+
+　　这个要借助第三方类库HttpClient,可以到这里下载：http://scripts.incutio.com/httpclient/
+
+＜?php
+require_once ’class/HttpClient.php’;
+$params = array(’web’ =＞ ’www.abc.com’,
+’pwd’ =＞ ’123456’,
+’action’ =＞ ’check’,
+’pseid’ =＞ ’NDE005’,
+’amt’ =＞ 1);
+$pageContents = HttpClient::quickPost(’http://ics.server.com/index.php’, $params);
+$result = explode(’,’, $pageContents);
+print_r($result);
+?＞ 
+
+　　PHP5中的SOAP方式
+
+　　server.php
+
+＜?php 
+function getQuote($fpsecode) { 
+global $dbh;
+$result = array();
+try {
+$query = "SELECT fprice, fcansale, fbalance, fbaltip FROM tblbalance where upper(trim(fpsecode)) = :psecode limit 1";
+$stmt = $dbh-＞prepare($query);
+$stmt-＞execute(array(’:psecode’ =＞ strtoupper(trim($fpsecode))));
+$stmt-＞bindColumn(’fprice’, $fprice);
+$stmt-＞bindColumn(’fcansale’, $fcansale);
+$stmt-＞bindColumn(’fbalance’, $fbalance);
+$stmt-＞bindColumn(’fbaltip’, $fbaltip);
+while($row = $stmt-＞fetch(PDO_FETCH_BOUND)) {
+//
+}
+} catch (PDOException $e) {
+echo $e-＞getMessage();
+}
+return $fprice; //你可以返回一个数组
+} 
+
+$dsn = ’pgsql:host=192.168.*.* port=5432 dbname=db user=123456 password=123456’;
+try {
+$dbh = new PDO($dsn);
+} catch (PDOException $e) {
+die(’Connection failed: ’ . $e-＞getMessage()); 
+}
+ini_set("soap.wsdl_cache_enabled", "0"); // disabling WSDL cache 
+$server = new SoapServer("stockquote.wsdl"); //配置文件
+$server-＞addFunction("getQuote"); 
+$server-＞handle(); 
+?＞ 
+
+　　stockquote.wsdl
+
+＜?xml version =’1.0’ encoding =’UTF-8’ ?＞ 
+＜definitions name=’StockQuote’ 
+targetNamespace=’http://example.org/StockQuote’ 
+xmlns:tns=’ http://example.org/StockQuote ’ 
+xmlns:soap=’http://schemas.xmlsoap.org/wsdl/soap/’ 
+xmlns:xsd=’http://www.w3.org/2001/XMLSchema’ 
+xmlns:soapenc=’http://schemas.xmlsoap.org/soap/encoding/’ 
+xmlns:wsdl=’http://schemas.xmlsoap.org/wsdl/’ 
+xmlns=’http://schemas.xmlsoap.org/wsdl/’＞ 
+
+＜message name=’getQuoteRequest’＞ 
+＜part name=’symbol’ type=’xsd:string’/＞ 
+＜/message＞ 
+＜message name=’getQuoteResponse’＞ 
+＜part name=’Result’ type=’xsd:float’/＞ 
+＜/message＞ 
+
+＜portType name=’StockQuotePortType’＞ 
+＜operation name=’getQuote’＞ 
+＜input message=’tns:getQuoteRequest’/＞ 
+＜output message=’tns:getQuoteResponse’/＞ 
+＜/operation＞ 
+＜/portType＞ 
+
+＜binding name=’StockQuoteBinding’ type=’tns:StockQuotePortType’＞ 
+＜soap:binding style=’rpc’ 
+transport=’http://schemas.xmlsoap.org/soap/http’/＞ 
+＜operation name=’getQuote’＞ 
+＜soap:operation soapAction=’urn:xmethods-delayed-quotes#getQuote’/＞ 
+＜input＞ 
+＜soap:body use=’encoded’ namespace=’urn:xmethods-delayed-quotes’ 
+encodingStyle=’http://schemas.xmlsoap.org/soap/encoding/’/＞ 
+＜/input＞ 
+＜output＞ 
+＜soap:body use=’encoded’ namespace=’urn:xmethods-delayed-quotes’ 
+encodingStyle=’http://schemas.xmlsoap.org/soap/encoding/’/＞ 
+＜/output＞ 
+＜/operation＞ 
+＜/binding＞ 
+
+＜service name=’StockQuoteService’＞ 
+＜port name=’StockQuotePort’ binding=’StockQuoteBinding’＞ 
+＜soap:address location=’http://192.168.3.9/php5/server.php’/＞ 
+＜/port＞ 
+＜/service＞ 
+＜/definitions＞
+
+client.php
+
+＜?php 
+$client = new SoapClient("stockquote.wsdl"); 
+$result = $client-＞getQuote("nde005"); 
+print_r($result);
+?＞ 
+
+
+阅读：4 次
+【 打印 】 
+上一篇：用PEAR来写你的PHP程序
+下一篇：Web Services和其他的技术的比较 
+相关新闻       相关关键词: 程序    在Windows运行Linux程序-Ulteo Virtual Desktop 
+Linux小组加入Intel协助开发Atom程序 
+NT下基于邮件服务软件(IMAIL)的发送程序 
+实例学习PHP程序对用户身份认证实现两种方法 
+用PEAR来写你的PHP程序 
+ Chrome延伸程序将登场 Firefox有优势 
+Android的“应用程序市场”截图 
+PHP程序处理网页表单的GET和POST方法另外用法 
+如何使用PHP程序开发高效的WEB网络系统 
+ 
+全站导航         Linux技术大全
+Linux入门/经验/提高Linux系统管理Linux网络管理Linux系统安全Linux编程开发Linux数据库技术Linux行业资讯程序设计及算法
+程序设计教程/技巧算法/数据结构ACM/ICPC 解题报告经验客户端软件开发
+Visual C++ / C#.NET平台用户界面开发网站开发技术
+PHP/MySQL 相关网页设计_UI_UEasp.net 开发游戏秘技攻略
+电脑游戏攻略电脑游戏秘技TV游戏攻略TV游戏秘技网文收藏
+
+
+  | 津ICP备05014842号 | 版权所有 超级苍蝇技术站 | 站长:wysuperflygmail.com | 网站统计  |流量统计
+ 

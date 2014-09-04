@@ -1,0 +1,131 @@
+/*
+	CSS for treeview class
+ */
+
+#treeView {
+	width: 200px;
+	height: 300px;
+	background-color: #F7FCFF;
+	border: 2px outset #ADCBDF;
+	font-family: trebuchet, arial;
+	font-size: 12px;
+	zoom: 1;
+}
+
+.tree_text_sel {
+	background-color: #EFEFC2;
+}
+
+.tree_text:hover {
+	color:red;
+}
+
+/* === Do not change css below === */
+
+#treeView {
+	overflow-y: auto;
+}
+
+ul#n_0 {
+	padding-left: 0px !important;
+	background-image: url(/images/tree/blank.gif) !important;
+}
+
+li + #n_0 {
+	padding-left: 22px !important;
+}
+
+#treeView ul {
+	padding-left: 22px;
+	margin: 0;
+	list-style-type: none;
+	background-color: transparent;
+	background-image: url(/images/tree/vLine.gif);
+	background-repeat:repeat-y;
+}
+
+.lastNode {
+	background-image: url(/images/tree/blank.gif) !important;
+}
+
+#treeView li {
+	padding-left: 0px;
+	height: 22px;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+
+.tree_node {
+	float:left;
+	height: 22px;
+	width: 16px;
+	cursor: pointer;
+}
+
+.tree_node_mLastNode {
+	background-image:url(/images/tree/mLastNode.gif);
+}
+
+.tree_node_pLastNode {
+	background-image:url(/images/tree/pLastNode.gif);
+}
+
+.tree_node_lLastNode {
+	background-image:url(/images/tree/lLastNode.gif);
+}
+
+.tree_node_mNode {
+	background-image:url(/images/tree/mNode.gif);
+}
+
+.tree_node_pNode {
+	background-image:url(/images/tree/pNode.gif);
+}
+
+.tree_node_lNode {
+	background-image:url(/images/tree/lNode.gif);
+}
+
+.tree_symbol {
+	float:left;
+	margin-top: -2px;
+	height: 18px;
+	width: 18px;
+	display: inline;
+	cursor: pointer;
+}
+
+.tree_node_closed {
+	background-image:url(/images/tree/nodeClosed.gif);
+}
+
+.tree_node_open {
+	background-image:url(/images/tree/nodeOpen.gif);
+}
+
+.tree_node_leaf {
+	background-image:url(/images/tree/leaveLink.gif);
+}
+
+.tree_node_animation {
+	background-image:url(/images/tree/activity.gif);
+}
+
+.tree_text {
+	margin-top: 2px;
+	margin-left: 4px;
+	float: none;
+	height: 18px;
+	cursor: pointer;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+*+ html .tree_text {
+	float: left;
+}
+
+*+ html .tree_text_sel {
+	float: left;
+}
